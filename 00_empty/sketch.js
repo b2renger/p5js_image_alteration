@@ -17,10 +17,6 @@ function myDrawing() {
    
 }
 
-function render() {
-
-}
-
 function timestamp() {
-    return "-" + +year() + "-" + month() + "-" + day() + "-" + hour() + "h" + minute() + "m" + second() + "s"
+    return year() + "-" + month() + "-" + day() + "-" + hour() + "h" + minute() + "m" + second() + "s"
 }
