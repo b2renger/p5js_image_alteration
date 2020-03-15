@@ -341,6 +341,8 @@ function myDrawing() {
 
 Dans l'exemple précedent nous avions ajouté un peu d'interaction en permettant à l'utilisateur de modifier la longueur des traits dessinés en déplaçant la souris. Nous allons maintenant utiliser une bibliothèque externe à p5js qui s'appelle [**Quicksettings**](https://github.com/bit101/quicksettings#quicksettings) afin de pouvoir créer un menu d'options et de paramètres qui nous permettront d'explorer les possibilités graphiques de nos programmes et aussi de créer des boutons pour exporter des images.
 
+### Ajouter un paramètre
+
 La première chose à faire est de créer une variable tout en haut de notre programme, c'est à dire en dehors des fonctions preload(), setup(), draw() etc.
 
 ```js
@@ -495,6 +497,77 @@ function timestamp() {
     return "-" + +year() + "-" + month() + "-" + day() + "-" + hour() + "h" + minute() + "m" + second() + "s"
 }
 ```
+
+### Utiliser plusieurs paramètres
+
+#### Une option niveaux de gris
+
+Nous allons maintenant utiliser plusieurs paramètres. Un premier paramètre nous permettra de choisir d'afficher notre image en niveau de gris ou avec les couleurs originales. Nous allons donc suivre les 3 étapes décrites plus haut.
+
+1- Il nous faut d'abord définir un nouveau paramètre à notre objet *params* et donc ajouter un paramètre appelé *grayscale*, qui devra être donc vrai ou faux :
+
+```js
+let params = {
+    "length" : 10,
+    "grayscale" : false
+}
+```
+
+2- Ensuite nous devons ajouter cet élément à notre menu (dans le setup donc), tout en pensant à bien définir notre fonction callback pour actualiser la valeur stockée dans notre objet *params*:
+```js
+// add a boolean switch to turn on grayscale or color
+    menu.addBoolean('niveaux de gris', params.grayscale, function(v){
+        params.grayscale = v
+    })
+ ```
+3- Utiliser notre valeur pour manipuler la couleur avec laquelle on dessine. Nous allons utiliser un **if()** pour vérifier la valeur et changer la couleur utilisée dans **stroke()** en fonction :
+```js
+// check the parameter grayscale
+if (params.grayscale == true){ // if true
+    // calculate the mean of rgb components
+    let gray = (red(col)+green(col)+ blue(col))/3.
+    stroke(gray) 
+else{
+    // recombine the rgb component 
+    stroke(red(col), green(col), blue(col))
+}
+```
+
+#### une option pour gérer la transparence
+
+1- Ajouter un nouveau paramètre *alpha* dans notre objet *params*
+```js
+let params = {
+    "length" : 10,
+    "grayscale" : false,
+    "alpha" : 255
+}
+```
+2- Ajouter un nouveau controlleur dans notre menu en pensant à utiliser la fonction callback pour actualiser la valeur concernée :
+```js
+// add another range to change the opacity of lines
+menu.addRange('opacité des lignes', 1 , 255, 255, 1, function(v){
+    params.alpha = v
+})
+```
+
+3- Utiliser notre valeur *params.alpha*  
+```js
+// check the parameter grayscale
+if (params.grayscale == true){ // if true
+    // calculate the mean of rgb components
+    let gray = (red(col)+green(col)+ blue(col))/3.
+    stroke(gray, params.alpha) // apply the alpha paramater
+}
+else{
+    // recombine the rgb component with the alpha parameter
+    stroke(red(col), green(col), blue(col), params.alpha)
+}
+```
+
+Voici donc le résultat final :
+<img src="result_images/example_03_params_multiples.gif" alt="portrait" width="400" height="whatever">
+
 
 
 
