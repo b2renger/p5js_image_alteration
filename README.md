@@ -10,18 +10,12 @@ L'objectif de ce repo est de découvrir les différentes techniques de manipulat
 
 Les images que nous utiliserons pour ces exemples sont générés via un algorithme d'intelligence artificielle appelé **StyleGan2** disponible à travers le logiciel [runwayML](https://runwayml.com/).
 
-<img src="assets/StyleGAN_landscape.jpeg " alt="landscape" width="300" height="whatever">
-<img src="assets/StyleGAN2_portrait.jpeg " alt="landscape" width="300" height="whatever">
+<img src="assets/StyleGAN_landscape.jpeg " alt="landscape" width="200" height="whatever">
+<img src="assets/StyleGAN2_portrait.jpeg " alt="landscape" width="200" height="whatever">
 
-<img src="result_images/example_02_ellipses.png " alt="portrait" width="300" height="whatever">
-<img src="result_images/example_02_lines.png " alt="portrait" width="300" height="whatever">
-<img src="result_images/example_02_lines_rotation.png " alt="portrait" width="300" height="whatever">
-<img src="result_images/example_04_texte.png" alt="portrait" width="300" height="whatever">
-<img src="result_images/example_04_texte_ascii.png" alt="portrait" width="300" height="whatever">
-<img src="result_images/example_04_texte_complet.png" alt="portrait" width="300" height="whatever">
-<img src="result_images/example_03_params.gif" alt="portrait" width="300" height="whatever">
-<img src="result_images/example_03_params_multiples.gif" alt="portrait" width="300" height="whatever">
-<img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="300" height="whatever">
+Exemples de rendus
+<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever">
+<img src="result_images/example_03_params.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="200" height="whatever">
 
 
 
