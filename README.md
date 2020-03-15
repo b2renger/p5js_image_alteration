@@ -568,7 +568,7 @@ else{
 Voici donc le résultat final :
 <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="400" height="whatever">
 
-
+Et vous pouvez retrouver le code complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/03_ajouter_des_parametres_multiples/sketch.js
 
 
 ## Charger des polices et afficher du texte
