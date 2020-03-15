@@ -573,11 +573,174 @@ Et vous pouvez retrouver le code complet ici : https://github.com/b2renger/p5js_
 
 ## Charger des polices et afficher du texte
 
+### Exemple simple
+Nous allons nous concentrer sur le fait de dessiner du texte. Notre premier exemple sera très simple et utilisera une police déjà incluse par défaut dans les sketchs p5js.
+
+Ici nous allons extraire la composante rouge ainsi que la saturation de chaque pixel
+
+```js
+// get image color
+let col = img.get(i, j)
+// extract red component and saturation
+let r = red(col)
+let sa = saturation(col)           
+```
+
+et nous allons calculer deux variables pour définir la taille du texte ainsi que son orientation (comme précédement)
+```js
+ // calculate a value that will be used as the size of our text 
+// we map the red component from 20 to 0 (no red == no text)
+let txtSiz = map(r, 0, 255, 20, 0)
+let angle = map(sa, 0, 100, 0, TWO_PI)
+```
+
+Il nous reste maintenant à dessiner :
+
+```js
+ // draw everything
+push()
+fill(0)
+textAlign(CENTER, CENTER)
+// try other alignment
+// textAlign(LEFT, TOP)
+// textAlign(RIGHT, BOTTOM)
+// remap the position of pixels to fill the whole canvas
+let xpos = map(i, 0, img.width, 0, width)
+let ypos = map(j, 0, img.height, 0, height)
+translate(xpos, ypos)
+rotate(angle)
+textSize(txtSiz)
+text("Hello", 0,0)
+pop()
+```
+
+Vous pouvez essayer différents types d'alignement du texte à l'aide de la fonction [**textAlign()**](https://p5js.org/reference/#/p5/textAlign)
+
+Voici donc le résultat final :
+<img src="result_images/example_04_texte.png" alt="portrait" width="400" height="whatever">
+
+Et vous pouvez retrouver le code complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte/sketch.js
+
+
+### Ajout de paramètres (choix de police)
+Nous allons maintenant ajouter des polices.
+
+Pour cela nous allons utiliser des polices déjà disponibles en ligne via [google fonts](https://fonts.google.com/).
+
+Ce site nous permet de choisir via une multitude de police et nous fournit même du code pour insérer ce polices dans nos pages web.
+
+![googlefonts](result_images/googlefonts.png)
+
+Il suffit de clicker sur les '+' en haut à droite de chaque case pour ajouter une police à notre liste de police. Une fois notre choix fait nous pouvons cliquer sur la barre noire en bas de notre fenêtre pour consulter le code pour insérer nos polices.
+
+![googlefonts selection](result_images/googlefonts-selection.png)
+
+Vous remarquez une chaine de code html que nous allons utiliser. Il suffit d'ajouter le code fournit au fichier "index.html" que nous utilisons.
+
+```html
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Great+Vibes|Monoton|Rock+Salt|Trade+Winds&display=swap" rel="stylesheet"> 
+```
+Pour pouvoir manipuler ces polices nous allons d'abord - tout en haut de notre programme, créer un tableau permettant de stocker les noms de chacune des polices choisies :
+
+```js
+// the list of the fonts name we want to use in our sketch - thoses where added to the index.html file aswell
+let fonts = ["Trade Winds", "Dancing Script","Great Vibes", "Rock Salt", "Monoton" ]
+```
+
+Après cela nous allons créer un objet paramètres afin de pouvoir choisir notre police : nous créeons donc un identifiant *currentFont*
+
+```js
+// parameter object 
+let params = {
+    'currentFont' : "Great Vibes",
+}
+```
+
+Ensuite dans le setup() nous allons créer notre menu et y ajouter un élément de type *dropdown*. 
+
+```js
+// quicksettings menu
+menu = QuickSettings.create(0,0,"options")
+// a menu to choose the font (name / list of fonts / callback)
+menu.addDropDown("choix de la police", fonts, function(v){
+    params.currentFont = v.label
+})
+```
+Cet élément nous renvoi un objet javascript plus complexe que le slider ou le booléen qui eux nous renvoyaient uniquement une valeur. Ici il faudra accéder au champ 'label' de la valeur que nous renvoit notre controleur.
+
+Il ne reste maintenant plus qu'à utiliser notre font :
+```js
+// apply the font chosen 
+textFont(params.currentFont)
+```
+
+Dans l'exemple final, nous avons ajouté la possibilité d'influer sur la taille du texte dessiné, mais aussi de changer le message écrit en utilisant un controleur de type *textfield* grâce à la bibliothèque quicksettings.
+
+Voici le résultat final :
+<img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="400" height="whatever">
+
+Ainsi que le code :
+https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres/sketch.js
+
+### Ascii art
+Cette fois-ci nous n'allons tout simplement dessiner un charactère au lieu de dessiner tous les charactères fournis par notre utilisateur. L'idée est de choisir ce charactère en fonction de la luminosité de nos pixels.
+
+Le but étant de prendre le premier charactère si notre pixel est très lumineux, le dernier s'il est sombre.
+En choisisant un chaine de charactère dont les charactère sont de plus en plus dense nous obtiendrons un rendu similaire à l'image originale. Par exemple : " .:=*/$"
+
+```js
+// map the brightness to a position index to be able to draw only one character in the message
+let characterIndex = int(map(br, 0, 100, params.message.length, 0))
+```
+
+Ensuite nous allons extraire le charactère qui nous intéresse :
+```js
+// extract the right parameter from the string
+let char  = params.message.charAt(characterIndex)
+```
+Il ne nous reste plus qu'à tout dessiner :
+```js
+// draw everyting 
+push()
+fill(0)
+textAlign(CENTER, CENTER)
+translate(xpos, ypos)
+text(char, 0, 0)
+pop()
+```
+
+Voici le résultat final :
+<img src="result_images/example_04_texte_ascii.png" alt="portrait" width="400" height="whatever">
+
+Ainsi que le code :
+https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres_ascii/sketch.js
+
+### Texte complet
+
+Dans ce dernier exemple avec du texte nous allons nous attacher à afficher un texte complet sur toute l'image. L'utilisateur pourra alors lire le texte, mais la couleur des lettres correspondra à la couleur du pixel original et chaque pixel correspondra à une lettre du texte dans son ordre original :
+
+```js
+let index = ( i + j * img.width ) % txt.length
+```
+On conserve la coordonnée en abscisse du pixel à laquelle on ajoute la coordonnée en ordonnée multiplié par le nombre de pixels sur une ligne. Si jamais notre texte comprends moins de charactères que le nombre de pixels de notre image, on s'assure de boucler en utilisant l'opérateur modulo.
+
+Il suffit ensuite d'extraire le charactère de notre texte.
+
+```js
+// extract the right parameter from the string
+let char  = txt.charAt(characterIndex)
+```
+
+Voici le résultat final :
+<img src="result_images/example_04_texte_complet.png" alt="portrait" width="400" height="whatever">
+
+Ainsi que le code :
+https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres_complet/sketch.js
+
+
+
+
 ## Utiliser fontawesome
-
-## Utiliser de la 3D
-
-## Créer des animations
 
 ## Exporter en PNG
 
@@ -585,15 +748,53 @@ Et vous pouvez retrouver le code complet ici : https://github.com/b2renger/p5js_
 
 ## Exporter plusieures "couches" svg
 
+
+
+## Créer des animations
+
+## Utiliser de la 3D
+
 ## Optimiser les performances en utilisant une classe
+
+
+## Exemples supplémentaires
+
+https://github.com/mikewesthad/lafayette-creative-coding-p5-workshop/blob/master/gifs/04-image.gif
+
+http://www.generative-gestaltung.de/2/sketches/?01_P/P_4_3_1_01
+
+http://www.generative-gestaltung.de/2/sketches/?01_P/P_4_3_1_02
+
+http://www.generative-gestaltung.de/2/sketches/?01_P/P_4_3_2_01
+
+http://www.generative-gestaltung.de/2/sketches/?01_P/P_4_1_2_01
+
+http://www.generative-gestaltung.de/2/sketches/?01_P/P_4_1_2_02
+
+https://www.openprocessing.org/sketch/826880
+
+https://www.openprocessing.org/sketch/826860
+
+https://www.openprocessing.org/sketch/824405
+
+https://www.openprocessing.org/sketch/840117
+
+https://www.openprocessing.org/sketch/842014
+
+https://www.openprocessing.org/sketch/624879
+
+https://www.openprocessing.org/sketch/842664
+
+https://www.openprocessing.org/sketch/743017
+
+https://www.openprocessing.org/sketch/736422
 
 // Créer et rappeler des presets
 
 // 3D + noise
 
-// Webcam
-
 // Shaders
 
-// https://github.com/mikewesthad/lafayette-creative-coding-p5-workshop/blob/master/gifs/04-image.gif
+// Shaders et webcam
+
 
