@@ -127,6 +127,9 @@ for (let i = 0; i < img.width; i++) { // go through each pixel horizontally
 
 Il nous reste maintenant à dessiner quelquechose ! 
 
+### Première variante - utiliser des ellipses
+
+
 Notre but va être de dessiner une ellipse dont la taille dépendera de la luminosité du pixel. Mais nous n'allons vouloir la dessiner que si sa saturation est supérieur à 25, et cette ellipse sera rouge mais nous n'utiliserons que la composante rouge de chaque pixel pour choisir la quantité de rouge de cette ellipse.
 
 Pour positionner cette ellipse dans notre page web nous allons transformer les coordonnées du pixel dans l'image en coordonnées écran (notre image fait 50 pixels de côté alors que notre canvas fait 1000).
@@ -138,22 +141,103 @@ On utilisera donc la fonction [**map()**](https://p5js.org/reference/#/p5/map) q
 // to a value between 0 and 20 (we will use this later as the radius of an ellipse)
 let s = map(br, 0, 100, 0, 20)
 
+ // recalculate the coordinates of the pixel to fit in the whole canvas
+let xpos = map(i, 0, img.width, 0, width)
+let ypos = map(j, 0, img.height, 0, height)
+
 if (sa > 25) { // if the saturation of the pixel is above 25
     ellipseMode(CORNER) // use the corner of the ellipse as anchor point to draw
     // use only the red component of the pixel to set stroke and fill color
     stroke(r, 0, 0)  
     fill(r,0,0)
-    // recalculate the coordinates of the pixel to fit in the whole canvas
-    let xpos = map(i, 0, img.width, 0, width)
-    let ypos = map(j, 0, img.height, 0, height)
     // draw an ellipse at the right place at the rigth size
     ellipse(xpos, ypos, s , s )
 }
 ```
-Ce code est bien sûr à ajouter à l'intérieur de la double boucle for pour que chaque pixel une ellipse soit dessinée.
+Ce code est bien sûr à ajouter à l'intérieur de la double boucle for afin que pour chaque pixel une ellipse soit dessinée.
 
+<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever">
 
+### Deuxième variante - utiliser des lignes/
 
+Comme vous l'avez déja compris dans notre process de création d'image chaque pixel devient une case et dans chaque case nous dessinerons quelquechose. Ici nous allons choisir de dessiner une ligne diagonale.
+
+Tout d'abord il nous faut determiner la taille d'une case : nous travaillons sur des images carrés et dans une zone de dessin carrée nous n'avons donc qu'à calculer le ratio entre la taillde notre zone de dessin et la taille de notre image : 
+
+```js
+// calculate the length of a segment : this will the size of a tile
+let len = width / img.width;
+```
+
+En supposant que les coordonnées du coin supérieur gauche de notre case soient 'xpos' et 'ypos'.
+
+Si la composante verte de notre pixel est supérieure à 60 nous dessinerons une ligne du coin supérieur gauche vers le coin inférieur droit de notre case. 
+```js
+ // draw a line from top left corner of a tile to the bottom right corner
+line(xpos, ypos, xpos + len, ypos + len)
+```
+
+Sinon nous dessinerons une ligne du coin inférieur gauche vers le coin supérieur droit !
+```js
+// draw a line from the bottom left corner of a tile to the top right corner
+line(xpos, ypos + len, xpos + len, ypos)
+```
+
+Afin d'obtenir un résultat un peu plus contrasté nous allons aussi jouer sur l'épaisseur du trait - en faisant en sorte que si la luminosité de notre pixel est importante notre trait soit fin, sinon qu'il soit plus épais.
+
+```js
+ let sw = map(br, 0, 100, 10, 0.1)
+strokeWeight(sw)
+stroke(0)
+noFill()
+```
+
+En récapitulant tous ces éléments à l'intérieur de notre double boucle for nous obtenons ce résultat :
+
+<img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever">
+
+Pour ce code :
+
+```js
+function myDrawing() {
+    background(255)
+
+    for (let i = 0; i < img.width; i++) { // go through each pixel horizontally
+        for (let j = 0; j < img.height; j++) { // for each horizontal pixel go through each row of pixel
+            // get the color of the pixel located at the coordinate (i,j)
+            let col = img.get(i, j)
+            // get the rgb components of the color (for each pixel)
+            let r = red(col) // value between 0-255
+            let g = green(col) // value between 0-255
+            let b = blue(col) // value between 0-255
+            // get the hue, saturation and brightness of the color
+            let hu = hue(col) // value between 0-360
+            let sa = saturation(col) // value between 0-100
+            let br = brightness(col) // value between 0-100
+
+            // remap the position of pixels to fill the whole canvas
+            let xpos = map(i, 0, img.width, 0, width)
+            let ypos = map(j, 0, img.height, 0, height)
+            // calculate the length of a segment : this will the size of a tile
+            let len = width / img.width;
+            // calculate a value depending on the brightness that we will use as the strokeweight
+            let sw = map(br, 0, 100, 10, 0.1)
+            strokeWeight(sw)
+            stroke(0)
+            noFill()
+
+            if (g > 60) { // if the green component of the pixel is above 60
+                // draw a line from top left corner of a tile to the bottom right corner
+                line(xpos, ypos, xpos + len, ypos + len)
+            } else {
+                // draw a line from the bottom left corner of a tile to the top right corner
+                line(xpos, ypos + len, xpos + len, ypos)
+            }
+
+        }
+    }
+}
+```
 
 
 ## Ajouter des contrôleurs avec quicksettings.js
