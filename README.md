@@ -158,7 +158,7 @@ Ce code est bien sûr à ajouter à l'intérieur de la double boucle for afin qu
 
 <img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever">
 
-### Deuxième variante - utiliser des lignes/
+### Deuxième variante - utiliser des lignes
 
 Comme vous l'avez déja compris dans notre process de création d'image chaque pixel devient une case et dans chaque case nous dessinerons quelquechose. Ici nous allons choisir de dessiner une ligne diagonale.
 
@@ -234,6 +234,104 @@ function myDrawing() {
                 line(xpos, ypos + len, xpos + len, ypos)
             }
 
+        }
+    }
+}
+```
+
+### Troisième variante - utiliser des lignes et une rotation
+
+Cette fois-ci nous allons encore utiliser des lignes, elles partiront toutes du coin supérieur gauche de chaque case, mais cette fois nous allons dessiner des lignes :
+
+- dont la longueur dépendera de la position de la souris sur notre page web
+
+```js
+// calculate the length of a segment : this will depend on the mouse position
+ let len = map(mouseX, 0, width, 0, 100)
+```
+
+- dont l'orientation dépendera de la saturation d'un pixel. Nous allons donc utiliser la valeur de saturation obtenue pour calculer une valeur que nous pourrons par la suite utiliser comme un angle (en radians)
+
+```js
+let sat = saturation(col) // extract the saturation of the pixel
+// transform it in a value we can use as an angle
+let angle = map(sat, 0, 100, 0, TWO_PI)
+```
+
+Il nous faudra pour cela avoir recours aux coordonnées polaires. Elles permettent d'exprimer les position d'un objet en fonction d'une distance au centre et d'un angle - autrement dit en conservant un rayon constant et en faisant varier l'angle on dessine assez facilement un cercle.
+Les coordonnées polaires sont juste une autre façon de définir l'emplacement d'un point dans l'espace en deux dimensions.
+
+Au lieu de donner une coordonnée en X (l'abscisse) et une en Y (l'ordonnée), nous allons donner un angle et un rayon. [Les coordonnées polaires](https://fr.wikipedia.org/wiki/Coordonn%C3%A9es_polaires) sur wikipédia.
+
+Processing ou p5js ne nous donnent pas la possibilité de dessiner des points en utilisant les coordonnées polaires, nous devons donc convertir les coordonnées polaires en coordonnées cartésiennes avant de pouvoir dessiner nos lignes.
+
+Heureusement il existe des formules mathématiques pour faire cette conversion. Ainsi un point exprimé en coordonnées polaire avec un angle 'theta' et un rayon 'r' aura pour coordoonées cartésienne dans un repère ce centre (x0, y0)
+
+```
+x = x0 + cos(theta) * r
+```
+et
+```
+y = y0 + sin(theta) * r
+```
+Vous pouvez aussi vous référer à [cet exemple](https://www.openprocessing.org/sketch/151087) qui détaille le cercle trigonométrique et les fonction trigonométriques de base.
+
+Une fois que nous avons notre angle il nous suffit alors de calculer le point d'arrivée de notre ligne en appliquant nos formules. Nous n'allons cependant pas avoir besoin de recourir
+au coordonnées du centre de notre repère car nous déplacerons pour chaque pixel notre position à l'endroit souhaité à l'aide de [**translate()**](https://p5js.org/reference/#/p5/translate)
+
+```js
+// apply polar coordinates
+// https://www.openprocessing.org/sketch/151087
+let x = len * cos(angle)
+let y = len * sin(angle)
+```
+
+Il ne nous reste alors plus qu'à dessiner nos lignes entre le position du coin supérieur gauche de chaque pixel (xpos,ypos) - calculé précédement; et notre point (x,y) calculé à l'aide des coordonnées polaires.
+
+```js
+ // draw !
+push()
+translate(xpos, ypos)
+line(0, 0, x, y)
+pop()
+```
+Nous obtenons alors ce résultat :
+
+<img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever">
+
+
+```js
+function myDrawing() {
+
+    background(255)
+
+    for (let i = 0 ; i < img.width ; i++){
+        for (let j = 0 ; j < img.height ; j++){
+
+            let col = img.get(i,j)
+            stroke(col)
+
+            // remap the position of pixels to fill the whole canvas
+            let xpos = map(i, 0, img.width, 0, width)
+            let ypos = map(j, 0, img.height, 0, height)
+
+            // this will depend on the mouse position
+            let len = map(mouseX, 0, width, 0, 100)
+
+            let sat = saturation(col) // extract the saturation of the pixel
+            // transform it in a value we can use as an angle
+            let angle = map(sat, 0, 100, 0, TWO_PI)
+            
+            // apply polar coordinates
+            // https://www.openprocessing.org/sketch/151087
+            let x = len * cos(angle)
+            let y = len * sin(angle)
+
+            // draw !
+            push()
+            translate(xpos, ypos)
+            line(0, 0, x, y)
+            pop()
         }
     }
 }
