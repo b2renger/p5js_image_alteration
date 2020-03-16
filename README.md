@@ -804,6 +804,8 @@ En manipulant des conditions et en essayant d'afficher plusieurs icones vous dev
 
 <img src="result_images/example_05_fontawesome.png" alt="portrait" width="400" height="whatever">
 
+Vous pourrez trouver le code complet de cet exemple en suivant ce lien : https://github.com/b2renger/p5js_image_alteration/blob/master/05_utiliser_fontawesome/sketch.js
+
 
 
 ## Exporter en PNG
