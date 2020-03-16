@@ -749,9 +749,36 @@ Ainsi que le code :
 https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres_complet/sketch.js
 
 
-
-
 ## Utiliser fontawesome
+Nous venons d'utiliser des fonts provenant de google fonts, nous allons maintenant utiliser [fontawesome](https://fontawesome.com/icons?d=gallery&m=free). Fontawesome est une police de charactère composée d'icones, il existe des versions gratuites et des versions payantes. 
+
+Vous pourrez trouver les 3 polices gratuites dans le dossier assets au format ".otf".
+
+La première étape va être de charger nos fonts afin de pouvoir les utiliser. Comme pour les images cela se fait en deux étapes :
+
+1- créer des variables avant le setup() et le preload()
+```js
+// two variables to hold two variant of the fonteawesome font
+let faReg // one regular
+let faBold // one bold
+```
+
+2- charger les polices dans ces variables à l'aide de la fonction [**loadFont()**](https://p5js.org/reference/#/p5/loadFont)
+```js
+ // load the regular font - with a callback function
+    faReg = loadFont("../assets/Font Awesome 5 Free-Regular-400.otf",
+        function () {
+            console.log("font awesome reg loaded")
+        }
+    )
+    // load the bold font - with a callback function
+    faBold = loadFont("../assets/Font Awesome 5 Free-Solid-900.otf",
+        function () {
+            console.log("font awesome bold loaded")
+        })
+
+```
+
 
 ## Exporter en PNG
 
@@ -790,8 +817,6 @@ https://www.openprocessing.org/sketch/824405
 
 https://www.openprocessing.org/sketch/840117
 
-https://www.openprocessing.org/sketch/842014
-
 https://www.openprocessing.org/sketch/624879
 
 https://www.openprocessing.org/sketch/842664
@@ -800,12 +825,14 @@ https://www.openprocessing.org/sketch/743017
 
 https://www.openprocessing.org/sketch/736422
 
-// Créer et rappeler des presets
 
-// 3D + noise
 
-// Shaders
+// Créer et rappeler des presets (utilisation des cookies)
 
-// Shaders et webcam
+// 3D + noise ?
+
+// Shaders ?
+
+// Shaders et webcam ?
 
 
