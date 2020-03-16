@@ -54,7 +54,7 @@ function myDrawing() {
             let br = brightness(col)
 
             // calculate a value that will be used as the size of our text 
-            // we map the red component from 20 to 0 (no red == no text)
+            // we map the red component from 20 to 5 (no red == no text)
             let txtSiz = map(sa, 0, 100, 20, 5)
 
            // remap the position of pixels to fill the whole canvas
@@ -65,12 +65,16 @@ function myDrawing() {
             push()
             textSize(txtSiz)
             translate(xpos, ypos)
-            
-            if (br > 50) { 
+            if (br > 60){
+                fill(255,200,120) // orange
+                textFont(faBold) // bold font
+                text('\uf0e7', 0, 0) // bolt icon => https://fontawesome.com/icons/bolt?style=solid
+            }
+            else if (br > 30 && br < 60) { 
                 fill(0, 100, 255) // light blue
                 textFont(faReg) // regulat font
                 text('\uf556', 0, 0) // angry smiley => https://fontawesome.com/icons/angry?style=regular
-            } else {
+            } else  {
                 fill(255,100,255) // purple
                 textFont(faBold) // bold font
                 text('\uf1e2', 0, 0) // bomb icon => https://fontawesome.com/icons/bomb?style=solid

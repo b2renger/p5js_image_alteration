@@ -14,7 +14,7 @@ Les images que nous utiliserons pour ces exemples sont générés via un algorit
 
 Exemples de rendus : 
 
-<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever">
+<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever">
 
 <img src="result_images/example_03_params.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="200" height="whatever">
 
@@ -778,6 +778,32 @@ let faBold // one bold
         })
 
 ```
+
+Après, il n'y a rien de vraiement nouveau : il faut parcourir tous les pixels, extraire les composantes de la couleur et choisir ce que l'on dessine avec des conditions.
+
+Par exemple nous allons faire une condition sur la luminosité des pixels. Si la luminosité est supérieur à 50 nous afficherons cette icone :
+https://fontawesome.com/icons/angry?style=regular
+sinon, celle ci :
+https://fontawesome.com/icons/bomb?style=solid
+
+Le principe est d'afficher du texte à l'aide d'un code [unicode](https://fr.wikipedia.org/wiki/Unicode). Vous pourrez donc trouver ce code sur le site de fontawesome sur la page de chaque icone.
+
+<img src="result_images/fontawesome.png" alt="portrait" width="400" height="whatever">
+
+Le code qui nous intéresse est 'f1e2'. Pour l'insérer nous allons utiliser la fonction **text()** en passant en paramètre une chaine de charactère composé de ce code en le préfixant de '\u' pour préciser à notre programme qu'il s'agit bien là d'unicode et pas d'une chaine de caractères classique.
+
+Tout en s'assurant de bien utiliser la bonne police et en choisissant aussi une couleur !
+
+```js
+fill(255,100,255) // purple
+textFont(faBold) // bold font
+text('\uf1e2', 0, 0) // bomb icon => https://fontawesome.com/icons/bomb?style=solid
+```
+
+En manipulant des conditions et en essayant d'afficher plusieurs icones vous devriez pouvoir arriver assez vite à ce genre de résultats :
+
+<img src="result_images/example_05_fontawesome.png" alt="portrait" width="400" height="whatever">
+
 
 
 ## Exporter en PNG
