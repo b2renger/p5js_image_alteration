@@ -1045,15 +1045,79 @@ et l'ajout du bouton avec la fonction callback :
 
 Le contenu est donc un peu complexe car le contexte de rendu est différent et moins performant. On commence donc par créer le contexte svg puis on effectue une passe de dessin, et enfin on sauvegarde le fichier et on recharge la page pour détruire le contexte svg.
 
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_en_svg/sketch.js
+
 
 ## Exporter plusieures "couches" svg
 
-## Créer des animations
+Pour exporter plusieures couches nous allons tout simplement utiliser pour conditionner les éléments que nous souhaitons afficher.
+
+Nous allons donc créer des cases à cocher pour chaque couche, si la case est cochée pour un couche la couche sera affichée et donc exportée.
+
+Imaginons que nous souhaitions exporter 3 couches, nous allons donc créer trois case à cocher dans notre menu.
+
+Il nous faut donc un objet params avec 3 variables :
+
+```js
+let params = {
+    "layer1": true,
+    "layer2": true,
+    "layer3": false
+}
+```
+
+Ensuite dans le setup nous pouvons créer les cases à cocher dans notre menu :
+
+```js
+menu = QuickSettings.create(0, 0, "options")
+menu.addBoolean("layer1", params.layer1, function (v) {
+    params.layer1 = v
+})
+menu.addBoolean("layer2", params.layer2, function (v) {
+    params.layer2 = v
+})
+menu.addBoolean("layer3", params.layer3, function (v) {
+    params.layer3 = v
+})
+```
+
+Puis dans notre algorithme de transformation d'image nous utilisons les valeurs stockée pour décider quoi dessiner et donc quoi exporter :
+
+```js
+if (gray > 0 && gray < 75) { // if dark draw a rectangle
+    if (params.layer1 == true) {
+        stroke(255, 0, 0)
+        rect(xpos, ypos, tileSize, tileSize)
+    }
+}
+if (gray > 50 && gray < 125) { // if medium draw an ellipse
+    if (params.layer2 == true) {
+        stroke(0, 0, 255)
+                    ellipse(xpos, ypos, tileSize, tileSize)
+    }
+}
+if (gray > 100 && gray < 175) { // if light draw a cross
+    if (params.layer3 == true) {
+        stroke(0,255,0)
+        line(xpos - tileSize / 2, ypos - tileSize / 2, xpos + tileSize / 2, ypos + tileSize / 2)
+        line(xpos - tileSize / 2, ypos + tileSize / 2, xpos + tileSize / 2, ypos - tileSize / 2)
+    }
+}
+```
+
+et voici nos 3 couches :
+
+<img src="result_images/example_07_export_svg_couche1.svg " alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg_couche2.svg " alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg_couche3.svg " alt="portrait" width="200" height="whatever">
+
+
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_plusieures_couches/sketch.js
+
 
 ## Utiliser de la 3D
 
 ## Optimiser les performances en utilisant une classe
 
+## Créer des animations
 
 ## Exemples supplémentaires
 
