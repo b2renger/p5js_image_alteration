@@ -910,6 +910,10 @@ Au delà de ce que nous avons fait ici vous pourrez notament retrouver des expli
 
 L'export au forma "png" est très simple. Nous allons tout simplement ajouter un bouton à notre menu et dans la fonction callback associée à ce bouton nous appelerons le code permettant de sauvegarder une image.
 
+La fonction en question est la fonction [**save()**](https://p5js.org/reference/#/p5/save)
+
+Cette fonction nous demande de passer en paramètre le nom du fichier que l'on veut sauvegarder. Dans notre cas nous allons inclure la date et donc enfin utiliser la fonction **timestamp()** qui traine tout en bas de notre code depuis le début.
+
 ## Exporter en SVG avec p5.svg
 
 ## Exporter plusieures "couches" svg
