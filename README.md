@@ -22,6 +22,32 @@ Exemples de rendus :
 ## Contenu
 
 
+* [Squelette du code](#Squelette-de-code)
+* [Charger une image](#Charger-une-image) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/01_charger_et_afficher_une_image/)
+* [Extraire les composantes de la couleur de chaque pixel](#Extraire-les-composantes-de-la-couleur-de-chaque-pixel)
+    * [Première variante : des ellipse](#utiliser-des-ellipses) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_ellipses/)
+    * [Deuxième variante : des lignes](#utiliser-des-lignes) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines/)
+    * [Troisième variante : des lignes orientées](#utiliser-des-lignes-et-une-rotation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines_rotation/)
+
+* [Ajouter des controleurs](#ajouter-des-controleurs)
+    * [Ajouter une option](#ajouter-une-option) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres/)
+    * [Ajouter plusieures options](#Utiliser-plusieures-options) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres_multiples/)
+
+* [Charger des polices et afficher du texte](#Charger-des-polices-et-afficher-du-texte)
+    * [Exemple simple](#Exemple-simple) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte/)
+    * [Choix de police](#Choix-de-police) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres/)
+    * [Ascii art](#Ascii-art) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_ascii/)
+    * [Texte complet](#Texte-complet) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_complet/)
+
+* [Utiliser fontawesome](#Utiliser-fontawesome) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/05_utiliser_fontawesome/)
+
+* [Utiliser du noise](#Utiliser-du-noise) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/06_utiliser_du_noise/)
+
+* [Exporter](#Exporter)
+    * [Exporter en PNG](#Exporter-en-PNG) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_png/)
+    * [Exporter en SVG](#Exporter-en-SVG) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_svg/)
+    * [Exporter plusieures couches svg](Exporter-plusieures-couches-svg) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_plusieures_couches/)
+
 
 ## Squelette de code
 Vous trouverez dans le dossier nommé **00_empty** le squelette de base du programme p5js que nous allons utiliser. Notez que ce squelette comporte une fonction **timestamp()** précodée qui nous permettra de générer une chaîne de caractère représentant la date au moment de son appel :
@@ -39,7 +65,9 @@ Le fichier **index.html** contient des liens vers les bibliothèques nécessaire
 
 Afin de favoriser les exports (ultérieurement) nous allons prendre l'habitude dès les premiers exemples de réaliser tous les affichage dans une fonction dédiée apellée **myDrawing()** plutôt que de dessiner directement dans la fonction **draw()**.
 
-## Charger une image, l'afficher et la redimensionner.
+[**home**](#Contenu)
+
+## Charger une image
 
 Notre premier exemple va nous permettre de découvrir les mécanismes de bases nécessaire à charger et afficher une image sans aucune manipulation supplémentaire pour l'instant.
 
@@ -89,7 +117,11 @@ function preload() {
 ```
 Nous allons systèmatiquement redimensionner nos images à de petites tailles. Car nous allons créer des opérations sur chaque pixel de l'image, une image de 100px * 100px représente 10000 opérations à réaliser et ce à chaque affichage, cela fait déjà beaucoup ! Il est donc préférable de travailler sur des résolutions d'images plus faibles.
 
-## Accéder aux pixels d'une image et extraire les composantes de la couleur de chaque pixel
+[Démo Live](https://b2renger.github.io/p5js_image_alteration/01_charger_et_afficher_une_image/)
+
+[**home**](#Contenu)
+
+## Extraire les composantes de la couleur de chaque pixel
 
 Une fois que notre image est chargé il est possible de d'accéder à chaque pixel et notament à sa couleur.
 
@@ -132,7 +164,9 @@ for (let i = 0; i < img.width; i++) { // go through each pixel horizontally
 
 Il nous reste maintenant à dessiner quelquechose ! 
 
-### Première variante - utiliser des ellipses
+[**home**](#Contenu)
+
+### utiliser des ellipses
 
 
 Notre but va être de dessiner une ellipse dont la taille dépendera de la luminosité du pixel. Mais nous n'allons vouloir la dessiner que si sa saturation est supérieur à 25, et cette ellipse sera rouge mais nous n'utiliserons que la composante rouge de chaque pixel pour choisir la quantité de rouge de cette ellipse.
@@ -163,7 +197,12 @@ Ce code est bien sûr à ajouter à l'intérieur de la double boucle for afin qu
 
 <img src="result_images/example_02_ellipses.png " alt="portrait" width="400" height="whatever">
 
-### Deuxième variante - utiliser des lignes
+[Démo Live](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_ellipses/)
+
+[**home**](#Contenu)
+
+
+### utiliser des lignes
 
 Comme vous l'avez déja compris dans notre process de création d'image chaque pixel devient une case et dans chaque case nous dessinerons quelquechose. Ici nous allons choisir de dessiner une ligne diagonale.
 
@@ -244,7 +283,12 @@ function myDrawing() {
 }
 ```
 
-### Troisième variante - utiliser des lignes et une rotation
+[Démo Live](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines/)
+
+[**home**](#Contenu)
+
+
+### utiliser des lignes et une rotation
 
 Cette fois-ci nous allons encore utiliser des lignes, elles partiront toutes du coin supérieur gauche de chaque case, mais cette fois nous allons dessiner des lignes :
 
@@ -342,11 +386,17 @@ function myDrawing() {
 }
 ```
 
-## Ajouter des contrôleurs avec quicksettings.js
+[Démo Live (pensez à bouger la souris)](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines_rotation/)
+
+[**home**](#Contenu)
+
+## Ajouter des controleurs
 
 Dans l'exemple précedent nous avions ajouté un peu d'interaction en permettant à l'utilisateur de modifier la longueur des traits dessinés en déplaçant la souris. Nous allons maintenant utiliser une bibliothèque externe à p5js qui s'appelle [**Quicksettings**](https://github.com/bit101/quicksettings#quicksettings) afin de pouvoir créer un menu d'options et de paramètres qui nous permettront d'explorer les possibilités graphiques de nos programmes et aussi de créer des boutons pour exporter des images.
 
-### Ajouter un paramètre
+[**home**](#Contenu)
+
+### Ajouter une option
 
 La première chose à faire est de créer une variable tout en haut de notre programme, c'est à dire en dehors des fonctions preload(), setup(), draw() etc.
 
@@ -503,7 +553,12 @@ function timestamp() {
 }
 ```
 
-### Utiliser plusieurs paramètres
+[Démo Live](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres/)
+
+[**home**](#Contenu)
+
+
+### Utiliser plusieures options
 
 #### Une option niveaux de gris
 
@@ -537,6 +592,7 @@ else{
     stroke(red(col), green(col), blue(col))
 }
 ```
+[**home**](#Contenu)
 
 #### une option pour gérer la transparence
 
@@ -576,6 +632,9 @@ Voici donc le résultat final :
 
 Et vous pouvez retrouver le code complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/03_ajouter_des_parametres_multiples/sketch.js
 
+[Démo Live](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres_multiples/)
+
+[**home**](#Contenu)
 
 ## Charger des polices et afficher du texte
 
@@ -628,8 +687,11 @@ Voici donc le résultat final :
 
 Et vous pouvez retrouver le code complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte/sketch.js
 
+[Démo Live](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte/)
 
-### Ajout de paramètres (choix de police)
+[**home**](#Contenu)
+
+### Choix de police
 Nous allons maintenant ajouter des polices.
 
 Pour cela nous allons utiliser des polices déjà disponibles en ligne via [google fonts](https://fonts.google.com/).
@@ -690,6 +752,10 @@ Voici le résultat final :
 Ainsi que le code :
 https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres/sketch.js
 
+[Démo Live](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres/)
+
+[**home**](#Contenu)
+
 ### Ascii art
 Cette fois-ci nous n'allons tout simplement dessiner un charactère au lieu de dessiner tous les charactères fournis par notre utilisateur. L'idée est de choisir ce charactère en fonction de la luminosité de nos pixels.
 
@@ -724,6 +790,10 @@ Voici le résultat final :
 Ainsi que le code :
 https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres_ascii/sketch.js
 
+et la [démo live](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_ascii/)
+
+[**home**](#Contenu)
+
 ### Texte complet
 
 Dans ce dernier exemple avec du texte nous allons nous attacher à afficher un texte complet sur toute l'image. L'utilisateur pourra alors lire le texte, mais la couleur des lettres correspondra à la couleur du pixel original et chaque pixel correspondra à une lettre du texte dans son ordre original :
@@ -747,6 +817,9 @@ Voici le résultat final :
 Ainsi que le code :
 https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres_complet/sketch.js
 
+et la [démo](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_complet/)
+
+[**home**](#Contenu)
 
 ## Utiliser fontawesome
 Nous venons d'utiliser des fonts provenant de google fonts, nous allons maintenant utiliser [fontawesome](https://fontawesome.com/icons?d=gallery&m=free). Fontawesome est une police de charactère composée d'icones, il existe des versions gratuites et des versions payantes. 
@@ -805,9 +878,11 @@ En manipulant des conditions et en essayant d'afficher plusieurs icones vous dev
 
 Vous pourrez trouver le code complet de cet exemple en suivant ce lien : https://github.com/b2renger/p5js_image_alteration/blob/master/05_utiliser_fontawesome/sketch.js
 
+ainsi que la [démo](https://b2renger.github.io/p5js_image_alteration/05_utiliser_fontawesome/)
 
+[**home**](#Contenu)
 
-## Utiliser du noise !
+## Utiliser du noise
 
 Nous allons maintenant découvrir la fonction [**noise()**](https://p5js.org/reference/#/p5/noise).
 
@@ -903,10 +978,15 @@ De nommbreux paramètres ont été ajoutés pour permettre à l'utilisateur de c
 - le fait que les formes soient remplies ou non
 - le fait de controler la manières dont les courbes se dessinent
 
+Voici aussi la [démo](https://b2renger.github.io/p5js_image_alteration/06_utiliser_du_noise/)
 
 Au delà de ce que nous avons fait ici vous pourrez notament retrouver des explications plus poussées [ici](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-)
 
-## Exporter en PNG
+[**home**](#Contenu)
+
+## Exporter
+
+### Exporter en PNG
 
 L'export au forma "png" est très simple. Nous allons tout simplement ajouter un bouton à notre menu et dans la fonction callback associée à ce bouton nous appelerons le code permettant de sauvegarder une image.
 
@@ -930,10 +1010,14 @@ menu.addButton("render to png", function(){
         save(timestamp() + JSON.stringify(params) + ".png")
 });
 ```
+
 Vous pourrez trouver le code de l'exemple précédent avec l'export png ajouté :  https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_en_png/sketch.js
 
+Ainsi que la [démo](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_png/)
 
-## Exporter en SVG avec p5.svg
+[**home**](#Contenu)
+
+### Exporter en SVG 
 
 Pour exporter en SVG, nous allons partir du programme suivant :
 
@@ -1047,8 +1131,11 @@ Le contenu est donc un peu complexe car le contexte de rendu est différent et m
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_en_svg/sketch.js
 
+Et comme toujours la [démo live](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_svg/)
 
-## Exporter plusieures "couches" svg
+[**home**](#Contenu)
+
+### Exporter plusieures couches svg
 
 Pour exporter plusieures couches nous allons tout simplement utiliser pour conditionner les éléments que nous souhaitons afficher.
 
@@ -1112,12 +1199,21 @@ et voici nos 3 couches :
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_plusieures_couches/sketch.js
 
+et la [démo](https://b2renger.github.io/p5js_image_alteration/07_exporter_plusieures_couches/)
+
+[**home**](#Contenu)
 
 ## Utiliser de la 3D
 
+[^HOME^](#Contenu)
+
 ## Optimiser les performances en utilisant une classe
 
+[^HOME^](#Contenu)
+
 ## Créer des animations
+
+[^HOME^](#Contenu)
 
 ## Exemples supplémentaires
 
@@ -1149,3 +1245,4 @@ https://www.openprocessing.org/sketch/743017
 
 https://www.openprocessing.org/sketch/736422
 
+[^HOME^](#Contenu)
