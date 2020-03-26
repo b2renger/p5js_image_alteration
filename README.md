@@ -14,10 +14,9 @@ Les images que nous utiliserons pour ces exemples sont générés via un algorit
 
 Exemples de rendus : 
 
-<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever">
+<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_06_noise.png" alt="portrait" width="200" height="whatever">
 
 <img src="result_images/example_03_params.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="200" height="whatever">
-
 
 
 ## Contenu
@@ -808,7 +807,108 @@ Vous pourrez trouver le code complet de cet exemple en suivant ce lien : https:/
 
 
 
+## Utiliser du noise !
+
+Nous allons maintenant découvrir la fonction [**noise()**](https://p5js.org/reference/#/p5/noise).
+
+Le noise est une notion relativement compliquée; elle est reliée à la notion de *random()* mais est prévue pour générer des résultats moins aléatoire et plus proches les uns des autres. Le jeu en vaut la chandelle car la fonction noise permet de faire beaucoup de choses très intéressantes graphiquement. [Voici le type de rendus que vous pouvez espérer générer à l'aide de **noise**.](https://www.google.com/search?q=noise+p5js&tbm=isch&ved=2ahUKEwjzlYno9bfoAhUG-BoKHQNKBAEQ2-cCegQIABAA&oq=noise+p5js&gs_l=img.3..0i8i30j0i24.4432.5399..5528...0.0..0.63.252.5......0....1..gws-wiz-img.......0i67j0.YEoopkQflh0&ei=aoJ8XvO4MYbwa4OUkQg&bih=947&biw=1680)
+
+Elle a été crée en 1983 par [Ken Perlin](https://en.wikipedia.org/wiki/Perlin_noise) dont le but était de créer un algorithme capable de reproduire des textures ou surface à l'aspect naturel. Il existe plusieurs types de noise, mais nous allons nous intéresser à l'unique version implémentée dans p5js.
+
+Si vous avez lu la référence, il faut comprendre que le noise peut-être utilisé jusqu'à 3 dimensions et qu'il renvoit des valeurs comprises entre 0 et 1. Une notion plus subtile qu'il faut comprendre et qu'il faut "passer" au moins une variable (ou une dimension) à la fonction *noise()*, plus l'écart entre les différentes variables que nous passeront sera important plus le résultat sera proche de la fonction *random()*, plus l'écart sera petit plus le résultat sera lisse.
+
+Notre programme sera assez complet puisqu'il incluera un certain nombre de paramètres.
+
+Dans la fonction *myDrawing()* nous allons donc commencer une double boucle for. Mais cette fois il y a une petite subtilité. Nous allons vouloir dessiner des lignes verticales qui se déformeront sous l'effet dans noise qui dépendera de la couleur de nos pixels. Pour obtenir un résultat comme celui-ci :
+
+<img src="result_images/example_06_noise.png" alt="portrait" width="400" height="whatever">
+
+Commençons donc par établir nos boucles *for*. Nous allons commencer par parcourir les pixels horizontalement, pour chaque pixel sur une ligne horizontal nous allons créé une ligne qui reliera tous les pixels en dessous à l'aide des fonctions [**beginShape()**](https://p5js.org/reference/#/p5/beginShape) et [**endShape()**](https://p5js.org/reference/#/p5/endShape).
+
+```js
+ // we want to draw vertical lines, so we start by going through a horizontal line
+    for (let i = 0; i < img.width; i++) {
+        // for the vertical lining we will create a shape to link points togeteher vertically
+        beginShape()
+        for (let j = 0; j < img.height; j++) {
+           
+            // drawing code will happen here.
+
+
+        }
+        endShape(CLOSE) // close our shape to get a filling
+        // notice this gets closed for each vertical line - there is one bracket below
+        // that corresponds to our first for loop
+    }
+```
+
+Après avoir établi cela nous allons pouvoir ajouter des points à notre forme pour créer nos "vagues" verticales grâce à la fonction [**vertex()**](https://p5js.org/reference/#/p5/vertex).
+
+A l'intérieur de nos boucle *for* nous allons donc faire d'abord nos calculs habituels :
+
+```js
+// get image color
+let col = img.get(i, j)
+let gray = (red(col) + green(col) + blue(col)) * 0.33
+
+// remap the position of pixels to fill the whole canvas
+let xpos = map(i, 0, img.width, 0, width)
+let ypos = map(j, 0, img.height, 0, height)
+
+// get the grasp of the space between to pixels in the real canvas
+let tileSize = width / img.width
+```
+
+Puis nous allons calculer notre décalage horizontal en fonction du niveau de gris :
+```js
+// calculate the horizontal displacement
+let n = noise(gray / 255)
+let xOffset = map(n, 0, 1, -tileSize , tileSize)
+```
+nous avons donc passé la valeur "gray" caculé plus haut à notre fonction *noise()* en la divisant par 255 pour que l'écart entre les valeurs passées ne soit pas trop grand et que nous puissions alors avoir un résultat relativemnt lisse. Puis nous avons utilisé *map()* pour transformer cette valeur obtenue (qui est comprise entre 0 et 1) et obtenir une valeur centrée.
+
+Il ne nous reste plus qu'à dessiner :
+```js
+ vertex(xpos + xOffset, ypos)
+```
+
+A ce point du code, vous remarquerez que à chaque fois que vous recharger la page le "profil" du noise change. C'est parce que le noise se comporte comme random et il a besoin d'une **seed** pour donner tout le temps le même résultat.
+Pour cela il faut utilise la fonction [**noiseSeed()**](https://p5js.org/reference/#/p5/noiseSeed).
+
+Nous allons donc permettre à l'utilisateur de changer cette *seed* en utiliser un slider.
+
+Il nous faut donc créer un objet *params*
+
+```js
+let params = {
+    'nS' : 5364
+}
+```
+
+et dans le setup() : créer un menu et y ajouter un slider pour notre paramètre :
+```js
+menu = QuickSettings.create(0, 0, "options");
+menu.addRange("noise seed", 0, 10000, params.nS, 1, function (v) {
+        params.nS = v
+        noiseSeed(params.nS)
+})
+```
+
+Dans notre exemple final, dont vous pouvez consulter le code ici : https://github.com/b2renger/p5js_image_alteration/blob/master/05_utiliser_fontawesome/sketch.js
+
+De nommbreux paramètres ont été ajoutés pour permettre à l'utilisateur de changer :
+- l'intensité de la déformation
+- l'opacité
+- l'épaisseur des traits
+- le fait que les formes soient remplies ou non
+- le fait de controler la manières dont les courbes se dessinent
+
+
+Au delà de ce que nous avons fait ici vous pourrez notament retrouver des explications plus poussées [ici](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-)
+
 ## Exporter en PNG
+
+L'export au forma "png" est très simple. Nous allons tout simplement ajouter un bouton à notre menu et dans la fonction callback associée à ce bouton nous appelerons le code permettant de sauvegarder une image.
 
 ## Exporter en SVG avec p5.svg
 
