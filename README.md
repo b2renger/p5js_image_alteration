@@ -894,7 +894,7 @@ menu.addRange("noise seed", 0, 10000, params.nS, 1, function (v) {
 })
 ```
 
-Dans notre exemple final, dont vous pouvez consulter le code ici : https://github.com/b2renger/p5js_image_alteration/blob/master/05_utiliser_fontawesome/sketch.js
+Dans notre exemple final, dont vous pouvez consulter le code ici : https://github.com/b2renger/p5js_image_alteration/blob/master/06_utiliser_du_noise/sketch.js
 
 De nommbreux paramètres ont été ajoutés pour permettre à l'utilisateur de changer :
 - l'intensité de la déformation
@@ -914,11 +914,28 @@ La fonction en question est la fonction [**save()**](https://p5js.org/reference/
 
 Cette fonction nous demande de passer en paramètre le nom du fichier que l'on veut sauvegarder. Dans notre cas nous allons inclure la date et donc enfin utiliser la fonction **timestamp()** qui traine tout en bas de notre code depuis le début.
 
+Créeons donc tout d'abord un menu avec un bouton et dans la fonction callback du bouton appelons la fonction *save()* et en paramètre passons la date grâce à *timestamp()*:
+
+```js
+menu = QuickSettings.create(0, 0, "options");
+menu.addButton("render to png", function(){
+        save(timestamp()+ ".png")
+});
+```
+
+Si nous avons en plus un certain nombre de paramètres il peut être intéressant de les exporter aussi dans le nom de l'image. Il exite pour cela une méthode permettant de transformer un objet de paramètres en une chaîne de caractères que nous pourrons accoler à notre timestamp :
+
+```js
+menu.addButton("render to png", function(){
+        save(timestamp() + JSON.stringify(params) + ".png")
+});
+```
+Vous pourrez trouver le code de l'exemple précédent avec l'export png ajouté :  https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_en_png/sketch.js
+
+
 ## Exporter en SVG avec p5.svg
 
 ## Exporter plusieures "couches" svg
-
-
 
 ## Créer des animations
 
@@ -956,15 +973,4 @@ https://www.openprocessing.org/sketch/842664
 https://www.openprocessing.org/sketch/743017
 
 https://www.openprocessing.org/sketch/736422
-
-
-
-// Créer et rappeler des presets (utilisation des cookies)
-
-// 3D + noise ?
-
-// Shaders ?
-
-// Shaders et webcam ?
-
 
