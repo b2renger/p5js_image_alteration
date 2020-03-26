@@ -14,7 +14,7 @@ Les images que nous utiliserons pour ces exemples sont générés via un algorit
 
 Exemples de rendus : 
 
-<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_06_noise.png" alt="portrait" width="200" height="whatever">
+<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_06_noise.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg.png" alt="portrait" width="400" height="whatever">
 
 <img src="result_images/example_03_params.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="200" height="whatever">
 
@@ -934,6 +934,117 @@ Vous pourrez trouver le code de l'exemple précédent avec l'export png ajouté 
 
 
 ## Exporter en SVG avec p5.svg
+
+Pour exporter en SVG, nous allons partir du programme suivant :
+
+Pour chaque pixel :
+    - nous calculons le niveau de gris
+    - nous calculons la taille maxmimale d'une forme
+    - et nous dessinons à la place du pixel soit un rectangle, soit une ellipse, soit une croix en fonction du niveau de gris.
+
+
+```js
+let img;
+
+function preload() {
+    // we load the image in the preload function - be sure to use a server of some kind
+    img = loadImage("../assets/StyleGAN2_portrait.jpeg",
+        // success callback passed to load image
+        function () {
+            console.log("image loaded")
+            img.resize(100, 100) // resize the image to 100px * 100px
+        },
+        // error callback passed to load image
+        function () {
+            console.log("failed to load image - try checking the path")
+        }
+    )
+}
+
+function setup() {
+    createCanvas(1000, 1000)
+    pixelDensity(1)
+    background(255)    
+}
+
+function draw() {
+    myDrawing()
+}
+
+function myDrawing() {
+    background(255)
+    noFill()
+    stroke(0)
+    strokeWeight(0.5)
+   
+    for (let i = 0; i < img.width; i++) {
+        for (let j = 0; j < img.height; j++) {
+            // get image color
+            let col = img.get(i, j)
+            // get gray component by averaging red / green  and blue components
+            let gray = (red(col) + green(col) + blue(col)) * 0.33
+
+            // remap the position of pixels to fill the whole canvas with 30px margins
+            let xpos = map(i, 0, img.width, 30, width - 30)
+            let ypos = map(j, 0, img.height, 30, height - 30)
+
+            // calculate the size of a for accoring to the gray value
+            let tileSize = map(gray, 0, 255, width/img.width, 0)
+
+            rectMode(CENTER)
+
+            if (gray > 0 && gray < 75){ // if dark draw a rectangle
+                rect(xpos,ypos,tileSize,tileSize)
+            }
+            if (gray > 50 && gray < 125){ // if medium draw an ellipse
+                ellipse(xpos,ypos,tileSize,tileSize)
+            }
+            if(gray > 100 && gray < 175){ // if light draw a cross
+                line(xpos-tileSize/2,ypos-tileSize/2,xpos+tileSize/2,ypos+tileSize/2)
+                line(xpos-tileSize/2,ypos+tileSize/2,xpos+tileSize/2,ypos-tileSize/2)
+            }
+            // if lighter do nothing => keep white
+        }
+    }
+
+}
+
+function timestamp() {
+    return nf(year(),4,0) + "-" +nf(month(),2,0) + "-" + nf(day(),2,0) + "-" 
+            + nf(hour(),2,0) + "h" + nf(minute(),2,0) + "m" + nf(second(),2,0) + "s"
+}
+```
+Qui donne ce résultat :
+
+<img src="result_images/example_07_export_svg.png" alt="portrait" width="400" height="whatever">
+
+Maintenant nous allons ajouter un menu et un bouton pour exporter en svg à l'aide de la bibliothèque [**p5.svg**](https://github.com/zenozeng/p5.js-svg) qui est déjà inclue dans le fichier *index.html* et donc prête à être utilisée côté js.
+
+L'ajout du menu se fait comme d'habitude, d'abord créer une variable globale (tout en haut en dehors du *setup* et du *draw*)
+
+```js
+let menu
+```
+
+Puis dans le setup, la création du menu :
+
+```js
+menu = QuickSettings.create(0, 0, "options")
+```
+
+et l'ajout du bouton avec la fonction callback :
+
+```js
+ menu.addButton("render to svg", function () {
+        createCanvas(width, height, SVG); // create an SVG drawing context
+        myDrawing(); // do the drawinf
+        save(timestamp()); // give file name and save it
+        window.location.reload(0) // reload the window to destroy the svg context
+});
+```
+
+Le contenu est donc un peu complexe car le contexte de rendu est différent et moins performant. On commence donc par créer le contexte svg puis on effectue une passe de dessin, et enfin on sauvegarde le fichier et on recharge la page pour détruire le contexte svg.
+
 
 ## Exporter plusieures "couches" svg
 
