@@ -1307,11 +1307,62 @@ Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_i
 
 et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights_parameters/)
 
-
 [**home**](#Contenu)
 
 ### Boxes en rotation
 
+Nous allons réaliser un troisième exemple en 3D, cette fois-ci au lieu d'utiliser la profondeur, nous allons faire tourner des cubes !
+
+La position de nos cubes sera la même que dans l'image de base, mais leur orientation dépendera du niveau de gris du pixel. Nous ajouterons une vitesse de rotation constante afin de créer des effets avec nos lumières.
+
+Nous gardons dans la fonction *myDrawing()* les mêmes lumières et paramètres que dans notre premier exemple :
+
+```js
+shininess(20);
+ambientLight(50);
+specularColor(255, 255, 255 );
+pointLight(255, 255, 255, width*0.5, height*0.00, 500);
+specularMaterial(255);
+
+orbitControl()
+
+translate(-width * 0.5, -height * 0.5, -100)
+```
+
+Puis dans la double boucle for nous allons calculer deux orientations une pour faire tourner nos cubes autour de l'axe X et une pour faire tourner nos cubes autour de l'axe Y.
+
+```js
+let rX = map(gray, 0, 255, 0, PI)
+let rY = map(gray, 0, 255, 0, PI/4)
+```
+
+Finalement nous utilisons les fonctions [**rotateX()**](https://p5js.org/reference/#/p5/rotateX) et [**rotateY()**](https://p5js.org/reference/#/p5/rotateY) pour faire tourner nos cubes :
+
+```js
+push()
+fill(col)
+translate(xpos, ypos, 0)
+rotateX(rX + frameCount / 15.)
+rotateY(rY + frameCount / 10.)
+box(15)
+pop()
+```
+
+Notez bien que nous ajoutons à la rotation une valeur qui augmente continuellement pour les faire tourner en permanence tous à la même vitesse. Pour cela nous utilisons [**frameCount**](https://p5js.org/reference/#/p5/frameCount) qui compte le nombre de fois que la boucle *draw()* est exécutée depuis le début du programme.
+
+<img src="result_images/example_08_3D_boxes.gif " alt="portrait" width="200" height="whatever">
+
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/08_3D_boxes/sketch.js
+
+et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes/)
+
+
+[**home**](#Contenu)
+
+
+### Optimiser les performances en utilisant une classe
+
+Dans nos programmes l'image que nous utilisons et toujours fixe, dans un souci d'optimisation des ressources il est possible de faire les analyses de nos pixels une seule fois au moment ou l'image est chargée. On stocke alors tout cela en mémoire et nous n'avons pas besoin à chaque fois d'aller chercher
 
 [**home**](#Contenu)
 
@@ -1319,11 +1370,7 @@ et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lig
 
 [**home**](#Contenu)
 
-## Optimiser les performances en utilisant une classe
 
-Dans nos programmes l'image que nous utilisons et toujours fixe, dans un souci d'optimisation des ressources il est possible de faire les analyses de nos pixels une seule fois au moment ou l'image est chargée. On stocke alors tout cela en mémoire et nous n'avons pas besoin à chaque fois d'aller chercher
-
-[**home**](#Contenu)
 
 
 ## Exemples supplémentaires
