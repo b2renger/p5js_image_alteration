@@ -1293,10 +1293,24 @@ et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lig
 
 ### Spheres avec options
 
+A parti de là il est assez simple d'imaginer ajouter plusieures options :
+- controller la couleur de la lumière
+- controller la position de la lumière
+- spécifier un déplacement maximum en profondeur
+- permettre de choisir sur quelle composante de la couleur le déplacement en profondeur se fait.
+
+Vous pouvez essayer de réaliser ces options par vous même en utilisant des sliders et un menu dropdown pour le mode de déformation. Rien de nouveau a priori.
+
+<img src="result_images/example_08_3D_spheres_lights_parameters.gif " alt="portrait" width="200" height="whatever">
+
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/08_3D_spheres_lights_parameters/sketch.js
+
+et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights_parameters/)
+
 
 [**home**](#Contenu)
 
-### Boxs en rotation
+### Boxes en rotation
 
 
 [**home**](#Contenu)
