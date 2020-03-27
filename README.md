@@ -1356,15 +1356,225 @@ Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_i
 
 et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes/)
 
-
 [**home**](#Contenu)
 
 
 ### Optimiser les performances en utilisant une classe
 
-Dans nos programmes l'image que nous utilisons et toujours fixe, dans un souci d'optimisation des ressources il est possible de faire les analyses de nos pixels une seule fois au moment ou l'image est chargée. On stocke alors tout cela en mémoire et nous n'avons pas besoin à chaque fois d'aller chercher
+Dans nos programmes l'image que nous utilisons et toujours fixe, dans un souci d'optimisation des ressources il est possible de faire les analyses de nos pixels une seule fois au moment ou l'image est chargée. On stocke alors tout cela en mémoire et nous n'avons pas besoin à chaque fois de calculer nos valeurs.
+
+Le principe ressemble un peu au principe de notre objet params. Sauf que cett fois si nous allons en créé un par pixel et stocker tout cela dans un tableau pour en profiter.
+
+Il peut être utile de se référer à la [documentation MDN en ligne de javascript](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Classes) pour comprendre plus en détail.
+
+D'une manière très pratique, nous créeons une classe pour stocker toutes les valeurs dont nous avons besoin - ce bout de code doit être placé en dehors de toute autre fonction :
+```js
+// a class to hold all the pixels informations
+class pixelData {
+    constructor(x, y, col, gray, r, g, b, hu, sa, br) {
+        this.x = x
+        this.y = y
+        this.col = col
+        this.gray = gray
+        this.r = r
+        this.g = g
+        this.b = b
+        this.hu = hu
+        this.sa = sa
+        this.br = br
+    }
+}
+
+```
+
+Maintenant nous pouvons créé un tableau qui stockera dans chacune de ces cases les données relatives à un pixel :
+```js
+let dataImage = [] // an array to store all our pixelData
+```
+
+Il nous faut maintenant remplir ce tableau avec les données provenant des pixels. Nous allons donc le faire dans la fonction callback de *loadImage()* si l'image a bien réussi à se charger :
+
+```js
+function preload() {
+    // we load the image in the preload function - be sure to use a server of some kind
+    img = loadImage("../assets/StyleGAN2_portrait.jpeg",
+        // success callback passed to load image
+        function () {
+            console.log("image loaded")
+            img.resize(50, 50) // resize the image to 100px * 100px
+            // go through all pixels
+            for (let i = 0; i < img.width; i++) {
+                for (let j = 0; j < img.height; j++) {
+                    // extract all components
+                    let col = img.get(i, j)
+                    let r = red(col)
+                    let g = green(col)
+                    let b = blue(col)
+                    let gray = (r + g + b) * 0.33
+                    let hu = hue(col)
+                    let sa = saturation(col)
+                    let br = brightness(col)
+                    // create a new pixel data object with all the values in the right order
+                    let px = new pixelData(i, j, col, gray, r, g, b, hu, sa, br)
+                    dataImage.push(px) // add this new pixel to our array
+                }
+            }
+            console.log(dataImage)
+        },
+        // error callback passed to load image
+        function () {
+            console.log("failed to load image - try checking the path")
+        }
+    )
+}
+```
+
+Maintenant il ne nous reste plus qu'à dessiner tout cela. Au lieu de faire une double boucle for, nous n'avons plus qu'à en faire une pour parcourir tous les *pixelData* de notre tableau *dataImage* :
+
+```js
+ for (let i = 0; i < dataImage.length; i++) {
+        let px = dataImage[i]
+ }
+ ```
+
+ à cette étape la variable *px* représente le pixel stocké dans la case *i* du tableau, il ne nous reste plus qu'à accéder aux valeurs avec un **.**, par exemple pour accéder à la composante rouge il faut faire :
+ ```js
+ px.r
+ ```
+
+ Il est du coup possible de reproduire le résultat précédent :
+
+ ```js
+ for (let i = 0; i < dataImage.length; i++) {
+    let px = dataImage[i]
+    // remap the position of pixels to fill the whole canvas
+    let xpos = map(px.x, 0, img.width, 50, width - 50)
+    let ypos = map(px.y, 0, img.height, 50, height - 50)
+        
+    let rX = map(px.gray, 0, 255, 0, PI)
+    let rY = map(px.gray, 0, 255, 0, PI / 4)
+
+    push()
+    fill(px.col)
+    translate(xpos, ypos, 0)
+    rotateX(rX + frameCount / 15.)
+    rotateY(rY + frameCount / 10.)
+    box(15)
+    pop()
+}
+```
+Le rendu n'a pas changé mais vous pouvez retrouver le code complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/08_3D_boxes_class/sketch.js
+
 
 [**home**](#Contenu)
+
+
+### Aller encore plus loin avec une classe
+
+Nous allons maintenant en profiter pour ajouter des propriétés à notre classe. Nous allons maintenant vouloir faire en sorte que nos cubes tournent plus ou moins vite en fonction de la luminosité des pixels.
+
+Du coup nous avons besoin de stocker l'orientation de chaque pixel, pour pouvoir à chaque image caculée lui ajouter une valeur donnée - c'est comme cela qu'est définie la notion de vitesse au niveau physique. (la position à un instant "t+1" est la position à un instant "t" plus la vitesse de déplacement).
+
+Nous allons donc ajouter quatres variables à notre classe : deux pour stocker l'orientation initiale et deux pour stocker la vitesse :
+
+```js
+// a class to hold all the pixels informations
+class pixelData {
+    constructor(x, y, col, gray, r, g, b, hu, sa, br, rX, rY, rsX,rsY) {
+        this.x = x
+        this.y = y
+        this.col = col
+        this.gray = gray
+        this.r = r
+        this.g = g
+        this.b = b
+        this.hu = hu
+        this.sa = sa
+        this.br = br
+        // add parameters to store base orientation for each pixel
+        this.rX = rX
+        this.rY = rY
+        // add parameters to store rotation speed for each pixel
+        this.rsX = rsX
+        this.rsY = rsY
+    }
+}
+```
+
+Puis il faut leur donner des valeurs au moment où on analyse les pixels :
+
+```js
+img = loadImage("../assets/StyleGAN2_portrait.jpeg",
+        // success callback passed to load image
+        function () {
+            console.log("image loaded")
+            img.resize(50, 50) // resize the image to 100px * 100px
+            // go through all pixels
+            for (let i = 0; i < img.width; i++) {
+                for (let j = 0; j < img.height; j++) {
+                    // extract all components
+                    let col = img.get(i, j)
+                    let r = red(col)
+                    let g = green(col)
+                    let b = blue(col)
+                    let gray = (r + g + b) * 0.33
+                    let hu = hue(col)
+                    let sa = saturation(col)
+                    let br = brightness(col)
+                    // calculate per pixel orientation
+                    let rX = 0
+                    let rY = 0
+                    // calculate per pixel rotation speed
+                    let rsX = map(gray, 0, 255, 0.01, 0.1)
+                    let rsY = map(gray, 0, 255, 0.02, 0.25)
+                    // create a new pixel data object with all the values in the right order
+                    let px = new pixelData(i, j, col, gray, r, g, b, hu, sa, br, rX, rY, rsX, rsY)
+                    dataImage.push(px) // add this new pixel to our array
+                }
+            }
+            console.log(dataImage)
+        },
+        // error callback passed to load image
+        function () {
+            console.log("failed to load image - try checking the path")
+        }
+    )
+```
+
+Enfin il faut les utiliser :
+```js
+
+    for (let i = 0; i < dataImage.length; i++) {
+        let px = dataImage[i]
+
+        // remap the position of pixels to fill the whole canvas
+        let xpos = map(px.x, 0, img.width, 50, width - 50)
+        let ypos = map(px.y, 0, img.height, 50, height - 50)
+        
+        // add rotation speed to orientation
+        px.rX = px.rX + px.rsX
+        px.rY = px.rY + px.rsY
+
+        push()
+        fill(px.col)
+        translate(xpos, ypos, 0)
+        rotateX(px.rX)
+        rotateY(px.rY)
+        box(15)
+        pop()
+    }
+```
+
+<img src="result_images/example_08_3D_boxes_class_speed.gif " alt="portrait" width="200" height="whatever">
+
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/08_3D_boxes_class_speed/sketch.js
+
+et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class_speed/)
+
+[**home**](#Contenu)
+
+
+
 
 ## Créer des animations
 
