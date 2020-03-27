@@ -14,9 +14,12 @@ Les images que nous utiliserons pour ces exemples sont générés via un algorit
 
 Exemples de rendus : 
 
-<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_06_noise.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg.png" alt="portrait" width="200" height="whatever">
+<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_06_noise.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_08_3D_spheres_lights.png " alt="portrait" width="200" height="whatever">
 
 <img src="result_images/example_03_params.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="200" height="whatever">
+<img src="result_images/example_08_3D_spheres_lights_parameters.gif " alt="portrait" width="200" height="whatever"> <img src="result_images/example_08_3D_boxes.gif " alt="portrait" width="200" height="whatever"> <img src="result_images/example_08_3D_boxes_class_speed.gif " alt="portrait" width="200" height="whatever"> 
+
+
 
 
 ## Contenu
@@ -46,7 +49,15 @@ Exemples de rendus :
 * [Exporter](#Exporter)
     * [Exporter en PNG](#Exporter-en-PNG) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_png/)
     * [Exporter en SVG](#Exporter-en-SVG) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_svg/)
-    * [Exporter plusieures couches svg](Exporter-plusieures-couches-svg) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_plusieures_couches/)
+    * [Exporter plusieures couches svg](#Exporter-plusieures-couches-svg) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_plusieures_couches/)
+
+* [Utiliser de la 3D](#Utiliser-de-la-3D)
+    * [Sphères simples](#Spheres-simples) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights/)
+    * [Spheres avec options](#Spheres-avec-options) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights_parameters/)
+    * [Boxes en rotation](#Boxes-en-rotation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes/)
+    * [Optimiser les performances en utilisant une classe](#Optimiser-les-performances-en-utilisant-une-classe)
+    * [Aller encore plus loin avec une classe](#Aller-encore-plus-loin-avec-une-classe) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class_speed/)
+    
 
 
 ## Squelette de code
@@ -1288,6 +1299,14 @@ Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_i
 
 et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights/)
 
+Il est bien sûr possible de dessiner d'autres formes 3D :
+
+- [box](https://p5js.org/reference/#/p5/box)
+- [cylinder](https://p5js.org/reference/#/p5/cylinder)
+- [cone](https://p5js.org/reference/#/p5/cone)
+- [ellipsoid](https://p5js.org/reference/#/p5/ellipsoid)
+- [torus](https://p5js.org/reference/#/p5/torus)
+
 
 [**home**](#Contenu)
 
@@ -1572,8 +1591,6 @@ Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_i
 et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class_speed/)
 
 [**home**](#Contenu)
-
-
 
 
 ## Créer des animations
