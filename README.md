@@ -1203,17 +1203,114 @@ et la [démo](https://b2renger.github.io/p5js_image_alteration/07_exporter_plusi
 
 [**home**](#Contenu)
 
-## Utiliser de la 3D
 
-[^HOME^](#Contenu)
+## Utiliser de la 3D 
 
-## Optimiser les performances en utilisant une classe
+Nous allons passer à des rendus 3D. La logique ne change quasiment pas, la seule chose qui change et la manière dont nous allons dessiner et il faudra ajouter les concepts de caméra, et de lumière !
 
-[^HOME^](#Contenu)
+Tout d'abord il faut s'assurer que notre canvas est bien créé en mode **WEBGL** qui nous permettra de dessiner des objets 3D.
+
+```js
+// activate webgl mode !!
+createCanvas(1000, 1000, WEBGL)
+```
+
+Pour la caméra nous allons utiliser la fonction [**orbitControl()**](https://p5js.org/reference/#/p5/orbitControl), et pour les lumières nous allons utiliser des [**pointLight()**](https://p5js.org/reference/#/p5/pointLight) combinées à des matériaux spéculaires (qui réfléchissent la lumière) [**specularMaterial()**](https://p5js.org/reference/#/p5/specularColor)
+
+Il existe d'autre type de manière d'illuminer un scène que nous ne couvrirons pas ici, mais une recherche dans la référence de P5JS devrait vous éclairer (avec mauvais jeu de mot).
+
+[**home**](#Contenu)
+
+
+### Spheres simples
+
+L'objectif ici est de faire ressortir dans la profondeur les pixels les plus lumineux. 
+
+Dans la fonction *myDrawing()* nous allons commencer par mettre en place notre lumière. Nous allons avoir une lumière ambiante relativement faible et nous allons utiliser les fonctions [**shininess()**](https://p5js.org/reference/#/p5/shininess) [**specularColo()**](https://p5js.org/reference/#/p5/specularColor) et [**specularMaterial()**](https://p5js.org/reference/#/p5/specularMaterial), pour donner un effet de brillant, réfléchissant à nos sphère. Ces fonctions permettent de définir la manière dont la lumière sera réfléchie sur nos objets.
+
+Puis nous utilisons un point de lumière [**pointLight()**](https://p5js.org/reference/#/p5/pointLight) qui prend en paramètre tout d'abord une couleur au format RGB, puis une position. Nous positionnons notre lumière au milieu en haut de notre scène.
+
+```js
+// set up the lights
+shininess(20); 
+ambientLight(50);
+specularColor(255, 255, 255 );
+pointLight(255, 255, 255, width*0.5, height*0.00, 500); // first color, then position
+specularMaterial(255);
+```
+
+Ensuite nous pouvons appeler la fonction [**orbitControl()**](https://p5js.org/reference/#/p5/orbitControl) afin de pouvoir nous déplacer dans la scène.
+```js
+// allow the posibility to move around
+orbitControl()
+```
+
+Il ne nous reste plus qu'à re-centrer notre espace et prendre un peu de recul, afin de pouvoir dessiner au bon endroit. En effet le centre du repère en mode WEBGL n'est pas en haut à gauche de notre canvas mais en plein centre. Du coup nous décalons tout de la moitié de notre largeur et de la moitié de notre hauteur vers la gauche et vers le haut :
+
+```js
+// re-center everything
+translate(-width * 0.5, -height * 0.5, -400)
+```
+
+Maintenant nous ne faisons que des choses classiques. La seule différence et que nous allons dessiner des sphères avec la fonction [**sphere()**](https://p5js.org/reference/#/p5/sphere) et comme la plus part des primitives de dessin 3D ces fonction ne prennent qu'un paramètre (la taille) et n'ont pas de paramaètres pour les positionner dans l'espace.
+Il faut donc utiliser [**translate()**](https://p5js.org/reference/#/p5/translate) ainsi que [**push()](https://p5js.org/reference/#/p5/push) et [**pop()**](https://p5js.org/reference/#/p5/pop) pour positionner nos objets.
+
+```js
+for (let i = 0; i < img.width; i++) {
+    for (let j = 0; j < img.height; j++) {
+            
+            // get image color
+            let col = img.get(i, j)
+            // get gray component by averaging red / green  and blue components
+            let gray = (red(col) + green(col) + blue(col)) * 0.33
+          
+            // remap the position of pixels to fill the whole canvas
+            let xpos = map(i, 0, img.width, 50, width - 50)
+            let ypos = map(j, 0, img.height, 50, height - 50)
+
+            // calculate a displacement according to the gray
+            let zoffset = map(gray, 0, 255, 0, 400)
+            // calculate a sphere size
+            let sphereSize = map(gray , 0, 255, 0, 15)
+
+            push()
+            fill(col)
+            translate(xpos, ypos, zoffset)
+            sphere(sphereSize, 10, 10)
+            pop()
+    }
+}
+```
+
+<img src="result_images/example_08_3D_spheres_lights.png " alt="portrait" width="200" height="whatever">
+
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/08_3D_spheres_lights/sketch.js
+
+et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights/)
+
+
+[**home**](#Contenu)
+
+### Spheres avec options
+
+
+[**home**](#Contenu)
+
+### Boxs en rotation
+
+
+[**home**](#Contenu)
 
 ## Créer des animations
 
-[^HOME^](#Contenu)
+[**home**](#Contenu)
+
+## Optimiser les performances en utilisant une classe
+
+Dans nos programmes l'image que nous utilisons et toujours fixe, dans un souci d'optimisation des ressources il est possible de faire les analyses de nos pixels une seule fois au moment ou l'image est chargée. On stocke alors tout cela en mémoire et nous n'avons pas besoin à chaque fois d'aller chercher
+
+[**home**](#Contenu)
+
 
 ## Exemples supplémentaires
 
@@ -1245,4 +1342,4 @@ https://www.openprocessing.org/sketch/743017
 
 https://www.openprocessing.org/sketch/736422
 
-[^HOME^](#Contenu)
+[**home**](#Contenu)
