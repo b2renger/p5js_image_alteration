@@ -7,7 +7,7 @@ function preload() {
         // success callback passed to load image
         function () {
             console.log("image loaded")
-            img.resize(50, 50) // resize the image to 100px * 100px
+            img.resize(100, 100) // resize the image to 100px * 100px
         },
         // error callback passed to load image
         function () {
@@ -20,7 +20,7 @@ function setup() {
     createCanvas(1000, 1000)
     pixelDensity(1)
     background(255)
-    img.resize(50, 50) // resize the image to 100px * 100px
+   
 
     menu = QuickSettings.create(0, 0, "options")
 
