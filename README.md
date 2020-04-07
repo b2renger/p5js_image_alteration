@@ -19,8 +19,7 @@ Exemples de rendus :
 <img src="result_images/example_03_params.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="400" height="whatever">
 <img src="result_images/example_08_3D_spheres_lights_parameters.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes_class_speed.gif " alt="portrait" width="400" height="whatever"> 
 <img src="result_images/example_09_triangulation_anim.gif " alt="portrait" width="400" height="whatever">
-
-<img src="result_images/example_10_Drop_triangulation.gif " alt="portrait" width="400" height="whatever">
+<img src="result_images/example_09_agents.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_10_Drop_triangulation.gif " alt="portrait" width="400" height="whatever">
 
 
 
@@ -65,7 +64,7 @@ Exemples de rendus :
 * [Animations](#Animations)
     * [Triangulation](#Triangulation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
     * [Triangulation animée](#Triangulation-en-mouvement) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
-    * [Agents autonomes](#agents-autonomes)
+    * [Agents autonomes](#agents-autonomes) - [Démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_agents/)
 
 * [Drag and drop](#drag-and-drop) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/10_Drop_triangulation/)
 
@@ -1815,6 +1814,119 @@ et la [démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_tria
 [**home**](#Contenu)
 
 ### Agents autonomes
+
+Cette dernière section sur l'animation va traiter des agents autonomes. Un agent un élément qui se déplace de manière contrôlée par un algorithme. Nous allons donc créer une nuée d'agents qui se déplacent sur notre image source, à chaque image calculée ils dessineront un rond de couleur adaptée à leur position (c'est une technique que l'on appelle lookup image). Leur prochaine position sera déterminé par un calcul qui prendra en compte la couleur de l'endroit où ils se trouvent. L'image se dessinera donc progressivement au grès du déplacement des agents.
+
+Pour cela nous allons créer une classe, cette classe nous permettra de stocker des valeurs utiles pour nous :
+- la position de l'agent dans l'image source (lookup image)
+- la couleur dans cette image source attachée à sa position (ainsi que le niveau de gris)
+- et enfin la position écran de notre rond à dessiner.
+Cette classe effectuera aussi les calculs des positions image_source <=> écran, grâce à une fonction update faisant en permanence les calcules nécessiares
+
+```js
+// a class agents that will store a few things for us.
+// an agent is a pixel moving autonomously in our image. We will use the class to
+// store its position in the image and the color and gray level of this position
+// we will also store the screen coordinates. The agent will modify its screen coordinates
+// according to the color in the lookup image.
+class Agent {
+
+    constructor(imgX, imgY) {
+        // image position
+        this.imgX = imgX
+        this.imgY = imgY
+        // color components for the screen position
+        this.col = img.get(imgX, imgY)
+        this.gray = (red(this.col) + blue(this.col) + green(this.col)) * 0.33
+        // screen position
+        this.screenX = map(this.imgX, 0, img.width, 0, width)
+        this.screenY = map(this.imgY, 0, img.height, 0, height)
+    }
+
+    update() {
+        // remap screen position to image position for the next iteration
+        this.imgX = (map(this.screenX, 0, width, 0, img.width))
+        this.imgY = (map(this.screenY, 0, height, 0, img.height))
+        // update the color and gray values according to the lookup position
+        this.col = img.get(this.imgX, this.imgY)
+        this.gray = (red(this.col) + blue(this.col) + green(this.col)) * 0.33
+    }
+}
+```
+
+Nous allons maintenant créer un certain nombre d'agents qui effectueront tous notre déplacement, nous allons donc définir un tableau de manière globale pour les stocker :
+
+```js
+// an array to store all our agents
+let agents = []
+```
+
+Dans le *setup()* nous allons maintenant initialiser les position aléatoires de tous nos agents
+
+```js
+// create a bunch of agents at random position in the image
+for (let i = 0; i < 500; i++) {
+    agents.push(new Agent((random(img.width)), (random(img.height))))
+}
+```
+Il nous faut maintenant dans le *draw()* parcourir tous nos agents et les faire dessiner ainsi que déterminer l'algorithme nécessaire pour calculer leur prochaine position.
+
+Occupons nous d'abord de dessiner quelque chose :
+```js
+for (let i = 0; i < agents.length; i++) {
+        // take the agent stored at the ith slot in our array
+        let a = agents[i]
+
+        // draw a point at the screen position
+        stroke(red(a.col), green(a.col), blue(a.col),  5)
+        noFill()
+        ellipse(a.screenX, a.screenY, 25,25)
+}
+```
+
+Maintenant nous devons determiner leur position suivante. Pour cela nous allons utiliser *cos* et *sin* un peu à la manière des coordonnées polaires dont nous avons déjà parlé. Ajoutons donc ce code juste avant la fermeture de notre boucle for :
+
+```js
+// create to coordinates mofifiers accordin to the color or the pixel
+let vx = cos(blue(a.col) * TWO_PI / 255.)
+let vy = sin(blue(a.col) * TWO_PI / 255.)
+```
+
+Nous pouvons maintenant ajouter ces valeurs à la position de notre agent et ajuster les positions relatives à l'image en appelant la fonction *update()* de notre classe pour l'agent selectionné :
+
+```js
+ // move the agent's screen coordinates
+a.screenX += vx * params.mult;
+a.screenY += vy * params.mult;
+
+// call update to update the lookup coordinates
+// aswell as lookup color for next iteration
+a.update()
+```
+Il ne nous reste plus qu'à vérifier que nos agents ne sortent pas de notre fenêtre. Si jamais ils sortent nous les supprimons et en créeons un nouveau :
+
+```js
+// if the agent get out of the screen
+if (a.screenY < 0 || a.screenY > height || a.screenX < 0 || a.screenX > width) {
+    agents.splice(i, 1) // remove it
+    agents.push(new Agent(random(img.width), random(img.height))) // create a new one
+}
+```
+La version finale du code ajoute de quelques paramètres et la possibilité de changer le mode de déformation en choisissant la composante de la courleur utilisée pour le calcul de la nouvelle position.
+
+Voici donc le résultat final :
+<img src="result_images/example_09_agents.gif " alt="portrait" width="200" height="whatever">
+
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/09_Animation_agents/sketch.js
+
+et la [démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_agents/)
+
+Cette technique peut offrir des résultats très riches. Vous pouvez vous référer à ce tuto (pour utilisateurs avancés) : https://generateme.wordpress.com/2016/04/24/drawing-vector-field/
+
+Vous pouvez trouver un exemple adapter des techniques présentées dans cet article ici :
+
+https://github.com/b2renger/p5js_image_alteration/blob/master/09_Animation_agents_2
+
 
 [**home**](#Contenu)
 
