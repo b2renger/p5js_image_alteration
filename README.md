@@ -18,7 +18,7 @@ Exemples de rendus :
 
 <img src="result_images/example_03_params.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="400" height="whatever">
 <img src="result_images/example_08_3D_spheres_lights_parameters.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes_class_speed.gif " alt="portrait" width="400" height="whatever"> 
-
+<img src="result_images/example_09_triangulation_anim.gif " alt="portrait" width="400" height="whatever">
 
 
 
@@ -57,10 +57,13 @@ Exemples de rendus :
     * [Boxes en rotation](#Boxes-en-rotation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes/)
     * [Optimiser les performances en utilisant une classe](#Optimiser-les-performances-en-utilisant-une-classe)
     * [Aller encore plus loin avec une classe](#Aller-encore-plus-loin-avec-une-classe) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class_speed/)
+
 * [Animations](#Animations)
     * [Triangulation](#Triangulation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
     * [Triangulation animée](#Triangulation-en-mouvement) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
-    
+    * [Agents autonomes](#agents-autonomes)
+
+* [Drag and drop](#drag-and-drop)
 
 
 ## Squelette de code
@@ -1761,6 +1764,48 @@ et la [démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_tria
 
 
 ### Triangulation en mouvement
+
+Alors vous allez me dire : "oui, mais tu as parlé d'animation ... on ne peut pas vraiment dire que ce soit une animation ... bon sauf si j'appuie de manière frénétique sur le bouton", et vous avez raison !
+
+Du coup voyons maintenant comment animer tout cela. Nous allons garder exactement la même base que précédement, sauf quand la fonction *draw()* nous allons ajouter une boucle for pour parcourir nos points. Nous allons les déplacer à l'aide de la fonction *noise()* dont nous avons déjà parlé précédement.
+
+Le principe et d'ajouter aux points placés aléatoirement une petite variation à chaque fois qu'une image est calculée par notre programme. 
+
+```js
+for (let i = 0 ; i < numPoints ; i++){
+        // add a little noise to their position - the noise will change according to the frameCount
+        points[i][0] = points[i][0] + map(noise(i, frameCount/100.), 0, 1, -0.1, 0.1)
+        points[i][1] = points[i][1] + map(noise(i, frameCount/150.), 0, 1, -0.1, 0.1)
+        // avoid them going out of the image
+        points[i][0] = constrain(points[i][0], 0, img.width)
+        points[i][1] = constrain(points[i][1], 0, img.height)
+}
+```
+
+Maintenant nous devons re-calculer nos triangles avec ces nouvelles positions, avant de les dessiner. Il faut d'abord bien pense à ré-initialiser le tableau qui stocke les coordonnées de nos triangles :
+
+```js
+let delaunay = Delaunator.from(points); // run the algorithm
+coordinates = [] // reset coordinates
+// fill the coordinates from the algorithm calculation
+for (let i = 0; i < delaunay.triangles.length; i += 3) {
+        coordinates.push([
+            points[delaunay.triangles[i]],
+            points[delaunay.triangles[i + 1]],
+            points[delaunay.triangles[i + 2]]
+        ]);
+}
+```
+
+et voilà il ne reste plus qu'à dessiner comme précédement.
+
+Voici donc le résultat final :
+<img src="result_images/example_09_triangulation_anim.gif " alt="portrait" width="200" height="whatever">
+
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/09_Animation_triangulation_noise/sketch.js
+
+et la [démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_noise/)
+
 
 
 [**home**](#Contenu)
