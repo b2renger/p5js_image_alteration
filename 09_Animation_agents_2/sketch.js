@@ -25,8 +25,6 @@ function preload() {
     )
 }
 
-
-
 function setup() {
     createCanvas(1000, 1000)
     pixelDensity(1)
@@ -42,25 +40,16 @@ function setup() {
     }
     console.log(agents)
 
-
-
 }
-
-
-
 
 function draw() {
     myDrawing()
 }
 
 function myDrawing() {
-    //background(255)
     noFill()
-    //noStroke()
-    // stroke(255)
-    console.log(agents.length)
 
-   
+    //console.log(agents.length)
     let time = millis() / 10000.
 
     for (let i = 0; i < agents.length; i++) {
@@ -72,17 +61,13 @@ function myDrawing() {
 
         
         let p = createVector(a.x, a.y)
-        // placeholder for vector field calculations
-        let v1 = swirl(p, 1);
 
+        let v1 = swirl(p, 1);
         let b = brightness(a.col)/(noise(time)*25.) ;
         let br = kampyle(b);
-
         let as =  v1.angleBetween(br);
-
         let v = astroid(as);
        
-
         a.screenX += v.x * params.mult;
         a.screenY += v.y * params.mult;
 
@@ -92,10 +77,6 @@ function myDrawing() {
             agents.splice(i, 1)
             agents.push(new Agent(random(img.width), random(img.height)))
         }
-
-
-
-
     }
 
 }
@@ -124,7 +105,6 @@ class Agent {
         this.col = img.get(this.imgX, this.imgY)
         this.gray = (red(this.col) + blue(this.col) + green(this.col)) * 0.33
     }
-
 
 }
 
