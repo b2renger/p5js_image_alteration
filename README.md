@@ -64,7 +64,7 @@ Exemples de rendus :
 * [Animations](#Animations)
     * [Triangulation](#Triangulation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
     * [Triangulation animée](#Triangulation-en-mouvement) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
-    * [Agents autonomes](#agents-autonomes) - [Démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_agents/)
+    * [Agents autonomes](#agents-autonomes) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_agents/)
 
 * [Drag and drop](#drag-and-drop) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/10_Drop_triangulation/)
 
