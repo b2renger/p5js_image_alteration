@@ -20,6 +20,10 @@ Exemples de rendus :
 <img src="result_images/example_08_3D_spheres_lights_parameters.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes_class_speed.gif " alt="portrait" width="400" height="whatever"> 
 <img src="result_images/example_09_triangulation_anim.gif " alt="portrait" width="400" height="whatever">
 
+<img src="result_images/example_10_Drop_triangulation.gif " alt="portrait" width="400" height="whatever">
+
+
+
 
 
 ## Contenu
@@ -63,7 +67,7 @@ Exemples de rendus :
     * [Triangulation animée](#Triangulation-en-mouvement) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
     * [Agents autonomes](#agents-autonomes)
 
-* [Drag and drop](#drag-and-drop)
+* [Drag and drop](#drag-and-drop) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/10_Drop_triangulation/)
 
 
 ## Squelette de code
@@ -1816,6 +1820,98 @@ et la [démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_tria
 
 
 ## Drag and drop
+
+Nous allons maintenant nous ateler à faire en sorte que l'utilisateur puisse charger une image de son choix lorsqu'il glissera une image sur notre page web.
+
+Pour cela nous allons utiliser la fonction [**drop()**](https://p5js.org/reference/#/p5.Element/drop) de p5js.
+
+Nous allons avoir besoin d'utiliser un booléen pour que les calculs ne s'effectuent que si une image est bien disponible.
+
+Pour cela créeons notre booléen en global (en dehors de toute fonction, tout en haut de notre programme)
+
+```js
+// a boolean to test that an image is effectively loaded 
+let imageLoaded = false
+```
+
+Dans la fonction preload il faut s'assurer que notre booléen est bien repassé à *true* quand l'image est chargée :
+
+```js
+
+function preload() {
+    // we load the image in the preload function - be sure to use a server of some kind
+    img = loadImage("../assets/StyleGAN2_portrait.jpeg",
+        // success callback passed to load image
+        function () {
+            console.log("image loaded")
+            imageLoaded = true // pass the boolean at true to display the image
+        }
+
+    )
+}
+```
+
+Maintenant nous allons devoir "enregistrer un évenement" sur notre canvas pour déterminer quand l'utilisateur glisse une image sur notre page web. Pour cela il faut que notre canvas soit stocké dans une variable.
+
+Donc 
+```js
+createCanvas(1000, 1000)
+```
+devient :
+```js
+let c = createCanvas(1000, 1000)
+```
+
+Il est maintenant possible de lui ajouter un *eventListenner* grâce à la fonction **drop()**. La fonction drop attend une fonction *callback* qui stocke le code à executer lorsqu'un glisser-déposer est détecté.
+
+```js
+// register a drop event  ie when a user drop an image on the canvas
+// when a drop event is registered => execute the function gotImage
+c.drop(gotImage);
+```
+
+La fonction callback *gotImage* peut-être définie comme suit, il s'agit en réalité de simplement :
+- passer notre booléen à false
+- charger la nouvelle image grace à *loadImage()* 
+- de ne pas oublier re-passer le booléen à true, dans la fonction callback de succès de *loadImage()*
+
+Cette fonction doit être définie aussi en global, comme le booléen précédement déclaré.
+```js
+// code to run when an image is dropped
+function gotImage(file) {
+    imageLoaded = false // pass the boolean to false to avoid crashing the program
+
+    // load the new image and pass a succss callback function
+    img = loadImage(file.data, function(){
+        console.log("new image dropped loeded")
+        imageLoaded = true // pass the boolean to true as the image IS loaded
+        initPoints() // re-init points
+    })
+}
+```
+
+Il ne reste maintenant plus qu'à empêcher le calculs lorsqu'il n'y a pas d'image disponnible. Pour cela nous allons tester le booléen *imageLoaded*, si il est vrai  et seulement si c'est le cas nous calculons.
+
+Nous pouvons donc encadrer la fonction *myDrawing()* dans laquelle nous effectuons tous nos dessins. Nous allons donc écrire un **if()** dans la fonction *draw()*
+
+```js
+function draw() {
+    // we execute the code only if we have an image to work with
+    if (imageLoaded) {
+        myDrawing()
+    }
+}
+```
+
+Il est maintenant possible pour un utilisateur de choisir l'image sur laquelle vos transformations se font !
+
+Voici donc le résultat final :
+<img src="result_images/example_10_Drop_triangulation.gif " alt="portrait" width="200" height="whatever">
+
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/10_Drop_triangulation/sketch.js
+
+et la [démo](https://b2renger.github.io/p5js_image_alteration/10_Drop_triangulation/)
+
 
 [**home**](#Contenu)
 
