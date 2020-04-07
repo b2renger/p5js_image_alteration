@@ -14,7 +14,7 @@ Les images que nous utiliserons pour ces exemples sont générés via un algorit
 
 Exemples de rendus : 
 
-<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_06_noise.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_08_3D_spheres_lights.png " alt="portrait" width="200" height="whatever">
+<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_06_noise.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_08_3D_spheres_lights.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_09_triangulation.png " alt="portrait" width="200" height="whatever">
 
 <img src="result_images/example_03_params.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="400" height="whatever">
 <img src="result_images/example_08_3D_spheres_lights_parameters.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes_class_speed.gif " alt="portrait" width="400" height="whatever"> 
@@ -57,6 +57,9 @@ Exemples de rendus :
     * [Boxes en rotation](#Boxes-en-rotation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes/)
     * [Optimiser les performances en utilisant une classe](#Optimiser-les-performances-en-utilisant-une-classe)
     * [Aller encore plus loin avec une classe](#Aller-encore-plus-loin-avec-une-classe) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class_speed/)
+* [Animations](#Animations)
+    * [Triangulation](#Triangulation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
+    * [Triangulation animée](#Triangulation-en-mouvement) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
     
 
 
@@ -1593,11 +1596,183 @@ et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class
 [**home**](#Contenu)
 
 
-## Créer des animations
+## Animations
+
+### Triangulation
+Nous allons maintenant nous intéresser à la triangulation de nos photos c'est à dire à leur représentation sous la forme d'une série de triangles disposés de manière aléatoire mais dont la couleur correspondra à un pixel de notre image.
+
+Pour cela nous allons utiliser une bibliothèques externe qui s'appelle [Delaunator](https://github.com/mapbox/delaunator) car en mathématique on parle généralement de [triangulation de Delaunay](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay).
+
+Pour intégrer cette nouvelle bibliothèqe il suffit d'ajouter la ligne ci-dessous à notre fichier html
+
+```html
+<script src="https://unpkg.com/delaunator@4.0.1/delaunator.js"></script> <!-- dev build -->
+```
+
+Il n'est pas nécessaire de télécharger quoi que ce soit car le fichier est hebergé en ligne et nous allons directement chercher une version précise de la bibliothèque grâce à notre url.
+
+Le principe de la triangulation est de fournir à notre algo de triangulation une série de points et celui-ci s'arrangera pour trouver les coordonnées de tous les triangles qu'il est possible de dessiner sans que ceux-ci ne se supperposent.
+
+La première étape est donc de créer des tableaux de points : un premier pour stocker des points tirés au hasard - nommé *points*, et un second pour stocker les coordonnées des triangles calculés par notre algo - *coordinates*. Ces deux tableaux doivent être créés de manière globale pour qu'ils soient accessibles dans tout le programme : on les créé donc tout en haut de notre programme (en dehors de toute autre fonction). On en profite aussi pour créer un objet *params* qui stockera le nombre de points que l'on veut trianguler :
+
+```js
+let params = {
+    numPoints : 500
+}
+let points = [] // store the random points to create triangles coordinates
+let coordinates = [] // store triangles coordinates
+```
+
+Ensuite nous allons créer une fonction que nous allons appeler *initPoints()*, cette fonction nous permettra de créer de nouveaux points et à la suite de calculer de nouveaux triangles. Cette fonction doit aussi être créée en global. Cette fonction est adaptée de la documentation de la bibliothèque.
+
+```js
+function initPoints() {
+
+    // reset array of points and coordinates
+    points = []
+    coordinates = []
+
+    // add a certain number of random points to the points array
+    for (let i = 0; i < params.numPoints; i++) {
+        let px = random(img.width)
+        let py = random(img.height)
+        points.push([px, py])
+    }
+    // do calculate the triangles
+    const delaunay = Delaunator.from(points);
+    // get the triangles from the library and add them to our coordinates array
+    for (let i = 0; i < delaunay.triangles.length; i += 3) {
+        coordinates.push([
+            points[delaunay.triangles[i]],
+            points[delaunay.triangles[i + 1]],
+            points[delaunay.triangles[i + 2]]
+        ]);
+    }
+    //console.log(coordinates);
+}
+```
+
+Il faut du coup appeler cette fonction dans le *setup()* pour tirer au hasard de nouveaux points et obtenir de nouvelles coordonnées de triangles. 
+
+```js
+function setup() {
+    createCanvas(1000, 1000)
+    pixelDensity(1)
+    background(255)
+    initPoints()
+}
+```
+
+Il ne nous reste maintenant plus qu'à dessiner ! Cela se fera en 4 étapes :
+ - parcourir le tableau de coordonnées :
+    ```js
+    // go through all the coordinates we calculated
+    for (let i = 0; i < coordinates.length; i++) {
+        // code
+    }
+    ```
+- calculer les coordonnées du centre de chaque triangle et extraire la couleur depuis l'image source :
+    ```js
+    // go through all the coordinates we calculated
+    for (let i = 0; i < coordinates.length; i++) {
+
+        // fin de the center of the current triangle
+        let centerX = (coordinates[i][0][0] + coordinates[i][1][0] + coordinates[i][2][0]) * 0.333
+        let centerY = (coordinates[i][0][1] + coordinates[i][1][1] + coordinates[i][2][1]) * 0.333
+
+        // get the pixel color of the center
+        let col = img.get(centerX, centerY)
+    }
+    ```
+- calculer les coordonées écran des points
+    ```js
+     for (let i = 0; i < coordinates.length; i++) {
+
+        // fin de the center of the current triangle
+        let centerX = (coordinates[i][0][0] + coordinates[i][1][0] + coordinates[i][2][0]) * 0.333
+        let centerY = (coordinates[i][0][1] + coordinates[i][1][1] + coordinates[i][2][1]) * 0.333
+
+        // get the pixel color of the center
+        let col = img.get(centerX, centerY)
+
+        // remap the position from images coordinates to fullscreen
+        let x1 = map(coordinates[i][0][0], 0, img.width, 0, width)
+        let y1 = map(coordinates[i][0][1], 0, img.height, 0, height)
+
+        let x2 = map(coordinates[i][1][0], 0, img.width, 0, width)
+        let y2 = map(coordinates[i][1][1], 0, img.height, 0, height)
+
+        let x3 = map(coordinates[i][2][0], 0, img.width, 0, width)
+        let y3 = map(coordinates[i][2][1], 0, img.height, 0, height)
+    }
+    ```
+- dessiner les triangles avec les bonnes coordonnées et la bonne couleur
+    ```js
+    // go through all the coordinates we calculated
+    for (let i = 0; i < coordinates.length; i++) {
+
+        // fin de the center of the current triangle
+        let centerX = (coordinates[i][0][0] + coordinates[i][1][0] + coordinates[i][2][0]) * 0.333
+        let centerY = (coordinates[i][0][1] + coordinates[i][1][1] + coordinates[i][2][1]) * 0.333
+
+        // get the pixel color of the center
+        let col = img.get(centerX, centerY)
+
+        // remap the position from images coordinates to fullscreen
+        let x1 = map(coordinates[i][0][0], 0, img.width, 0, width)
+        let y1 = map(coordinates[i][0][1], 0, img.height, 0, height)
+
+        let x2 = map(coordinates[i][1][0], 0, img.width, 0, width)
+        let y2 = map(coordinates[i][1][1], 0, img.height, 0, height)
+
+        let x3 = map(coordinates[i][2][0], 0, img.width, 0, width)
+        let y3 = map(coordinates[i][2][1], 0, img.height, 0, height)
+
+        // draw the triangle with the right colors and the right positions
+        fill(col)
+        stroke(col)
+        triangle(x1, y1, x2, y2, x3, y3)
+    }
+    ```
+
+Et voilà ! il ne nous reste plus qu'à ajouter un menu pour pouvoir changer le nombre de points et un boutons pour recalculer les triangles :
+- avant le *setup()* on créé une variable pour notre menu :
+    ```js
+    let menu
+    ```
+- dans le *setup()* on initialise notre menu et on ajoute un slider et un bouton. Le slider va manipuler notre objet paramètres et notre bouton va appeler la fonction *initPoints()* lorsque l'utilisateur cliquera dessus :
+    ```js
+     menu = QuickSettings.create(0, 0, "options")
+    menu.addRange("number of points", 100, 5000, params.numPoints, 1, function (v) {
+        params.numPoints = v
+    })
+    menu.addButton("regenerate", function () {
+        initPoints();
+    })
+    ```
+Voici donc le résultat final :
+<img src="result_images/example_09_triangulation.png " alt="portrait" width="200" height="whatever">
+
+Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/09_Animation_triangulation_base/sketch.js
+
+et la [démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
 
 [**home**](#Contenu)
 
 
+### Triangulation en mouvement
+
+
+[**home**](#Contenu)
+
+### Agents autonomes
+
+[**home**](#Contenu)
+
+
+## Drag and drop
+
+[**home**](#Contenu)
 
 
 ## Exemples supplémentaires
