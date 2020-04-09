@@ -12,6 +12,14 @@ Les images que nous utiliserons pour ces exemples sont générés via un algorit
 
 <img src="assets/StyleGAN_landscape.jpeg " alt="landscape" width="200" height="whatever"> <img src="assets/StyleGAN2_portrait.jpeg " alt="landscape" width="200" height="whatever">
 
+Exemples de rendus : 
+
+<img src="result_images/example_02_ellipses.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_ascii.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_04_texte_complet.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_05_fontawesome.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_06_noise.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_08_3D_spheres_lights.png " alt="portrait" width="200" height="whatever"> <img src="result_images/example_09_triangulation.png " alt="portrait" width="200" height="whatever">
+
+<img src="result_images/example_03_params.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="400" height="whatever">
+<img src="result_images/example_08_3D_spheres_lights_parameters.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes_class_speed.gif " alt="portrait" width="400" height="whatever"> 
+<img src="result_images/example_09_triangulation_anim.gif " alt="portrait" width="400" height="whatever">
+<img src="result_images/example_09_agents.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_10_Drop_triangulation.gif " alt="portrait" width="400" height="whatever">
 
 
 ## Contenu
