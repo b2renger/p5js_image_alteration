@@ -26,44 +26,44 @@ Exemples de rendus :
 
 
 * [Squelette du code](#Squelette-de-code)
-* [Charger une image](#Charger-une-image) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/01_charger_et_afficher_une_image/)
+* [Charger une image](#Charger-une-image) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/01_charger_et_afficher_une_image/)
 * [Extraire les composantes de la couleur de chaque pixel](#Extraire-les-composantes-de-la-couleur-de-chaque-pixel)
-    * [Première variante : des ellipse](#utiliser-des-ellipses) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_ellipses/)
-    * [Deuxième variante : des lignes](#utiliser-des-lignes) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines/)
-    * [Troisième variante : des lignes orientées](#utiliser-des-lignes-et-une-rotation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines_rotation/)
+    * [Première variante : des ellipse](#utiliser-des-ellipses) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_ellipses/)
+    * [Deuxième variante : des lignes](#utiliser-des-lignes) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines/)
+    * [Troisième variante : des lignes orientées](#utiliser-des-lignes-et-une-rotation) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines_rotation/)
 
 * [Ajouter des controleurs](#ajouter-des-controleurs)
-    * [Ajouter une option](#ajouter-une-option) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres/)
-    * [Ajouter plusieures options](#Utiliser-plusieures-options) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres_multiples/)
+    * [Ajouter une option](#ajouter-une-option) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres/)
+    * [Ajouter plusieures options](#Utiliser-plusieures-options) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres_multiples/)
 
 * [Charger des polices et afficher du texte](#Charger-des-polices-et-afficher-du-texte)
-    * [Exemple simple](#Exemple-simple) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte/)
-    * [Choix de police](#Choix-de-police) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres/)
-    * [Ascii art](#Ascii-art) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_ascii/)
-    * [Texte complet](#Texte-complet) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_complet/)
+    * [Exemple simple](#Exemple-simple) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte/)
+    * [Choix de police](#Choix-de-police) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres/)
+    * [Ascii art](#Ascii-art) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_ascii/)
+    * [Texte complet](#Texte-complet) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_complet/)
 
-* [Utiliser fontawesome](#Utiliser-fontawesome) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/05_utiliser_fontawesome/)
+* [Utiliser fontawesome](#Utiliser-fontawesome) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/05_utiliser_fontawesome/)
 
-* [Utiliser du noise](#Utiliser-du-noise) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/06_utiliser_du_noise/)
+* [Utiliser du noise](#Utiliser-du-noise) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/06_utiliser_du_noise/)
 
 * [Exporter](#Exporter)
-    * [Exporter en PNG](#Exporter-en-PNG) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_png/)
-    * [Exporter en SVG](#Exporter-en-SVG) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_svg/)
-    * [Exporter plusieures couches svg](#Exporter-plusieures-couches-svg) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/07_exporter_plusieures_couches/)
+    * [Exporter en PNG](#Exporter-en-PNG) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_png/)
+    * [Exporter en SVG](#Exporter-en-SVG) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_svg/)
+    * [Exporter plusieures couches svg](#Exporter-plusieures-couches-svg) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/07_exporter_plusieures_couches/)
 
 * [Utiliser de la 3D](#Utiliser-de-la-3D)
-    * [Sphères simples](#Spheres-simples) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights/)
-    * [Spheres avec options](#Spheres-avec-options) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights_parameters/)
-    * [Boxes en rotation](#Boxes-en-rotation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes/)
+    * [Sphères simples](#Spheres-simples) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights/)
+    * [Spheres avec options](#Spheres-avec-options) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights_parameters/)
+    * [Boxes en rotation](#Boxes-en-rotation) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes/)
     * [Optimiser les performances en utilisant une classe](#Optimiser-les-performances-en-utilisant-une-classe)
-    * [Aller encore plus loin avec une classe](#Aller-encore-plus-loin-avec-une-classe) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class_speed/)
+    * [Aller encore plus loin avec une classe](#Aller-encore-plus-loin-avec-une-classe) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class_speed/)
 
 * [Animations](#Animations)
-    * [Triangulation](#Triangulation) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
-    * [Triangulation animée](#Triangulation-en-mouvement) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
-    * [Agents autonomes](#agents-autonomes) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/09_Animation_agents/)
+    * [Triangulation](#Triangulation) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
+    * [Triangulation animée](#Triangulation-en-mouvement) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
+    * [Agents autonomes](#agents-autonomes) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/09_Animation_agents/)
 
-* [Drag and drop](#drag-and-drop) - [**Démo**](https://b2renger.github.io/p5js_image_alteration/10_Drop_triangulation/)
+* [Drag and drop](#drag-and-drop) - [**DEMO**](https://b2renger.github.io/p5js_image_alteration/10_Drop_triangulation/)
 
 
 ## Squelette de code
@@ -134,7 +134,7 @@ function preload() {
 ```
 Nous allons systèmatiquement redimensionner nos images à de petites tailles. Car nous allons créer des opérations sur chaque pixel de l'image, une image de 100px * 100px représente 10000 opérations à réaliser et ce à chaque affichage, cela fait déjà beaucoup ! Il est donc préférable de travailler sur des résolutions d'images plus faibles.
 
-[Démo Live](https://b2renger.github.io/p5js_image_alteration/01_charger_et_afficher_une_image/)
+[Demo](https://b2renger.github.io/p5js_image_alteration/01_charger_et_afficher_une_image/)
 
 [**home**](#Contenu)
 
@@ -214,7 +214,7 @@ Ce code est bien sûr à ajouter à l'intérieur de la double boucle for afin qu
 
 <img src="result_images/example_02_ellipses.png " alt="portrait" width="400" height="whatever">
 
-[Démo Live](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_ellipses/)
+[Demo](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_ellipses/)
 
 [**home**](#Contenu)
 
@@ -300,7 +300,7 @@ function myDrawing() {
 }
 ```
 
-[Démo Live](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines/)
+[Demo](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines/)
 
 [**home**](#Contenu)
 
@@ -403,7 +403,7 @@ function myDrawing() {
 }
 ```
 
-[Démo Live (pensez à bouger la souris)](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines_rotation/)
+[Demo](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines_rotation/)(pensez à bouger la souris)
 
 [**home**](#Contenu)
 
@@ -570,7 +570,7 @@ function timestamp() {
 }
 ```
 
-[Démo Live](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres/)
+[Demo](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres/)
 
 [**home**](#Contenu)
 
@@ -649,7 +649,7 @@ Voici donc le résultat final :
 
 Et vous pouvez retrouver le code complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/03_ajouter_des_parametres_multiples/sketch.js
 
-[Démo Live](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres_multiples/)
+[Demo](https://b2renger.github.io/p5js_image_alteration/03_ajouter_des_parametres_multiples/)
 
 [**home**](#Contenu)
 
@@ -704,7 +704,7 @@ Voici donc le résultat final :
 
 Et vous pouvez retrouver le code complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte/sketch.js
 
-[Démo Live](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte/)
+[Demo](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte/)
 
 [**home**](#Contenu)
 
@@ -769,7 +769,7 @@ Voici le résultat final :
 Ainsi que le code :
 https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres/sketch.js
 
-[Démo Live](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres/)
+[Demo](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres/)
 
 [**home**](#Contenu)
 
@@ -807,7 +807,7 @@ Voici le résultat final :
 Ainsi que le code :
 https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres_ascii/sketch.js
 
-et la [démo live](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_ascii/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_ascii/)
 
 [**home**](#Contenu)
 
@@ -834,7 +834,7 @@ Voici le résultat final :
 Ainsi que le code :
 https://github.com/b2renger/p5js_image_alteration/blob/master/04_afficher_du_texte_parametres_complet/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_complet/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/04_afficher_du_texte_parametres_complet/)
 
 [**home**](#Contenu)
 
@@ -895,7 +895,7 @@ En manipulant des conditions et en essayant d'afficher plusieurs icones vous dev
 
 Vous pourrez trouver le code complet de cet exemple en suivant ce lien : https://github.com/b2renger/p5js_image_alteration/blob/master/05_utiliser_fontawesome/sketch.js
 
-ainsi que la [démo](https://b2renger.github.io/p5js_image_alteration/05_utiliser_fontawesome/)
+ainsi que la [Demo](https://b2renger.github.io/p5js_image_alteration/05_utiliser_fontawesome/)
 
 [**home**](#Contenu)
 
@@ -995,7 +995,7 @@ De nommbreux paramètres ont été ajoutés pour permettre à l'utilisateur de c
 - le fait que les formes soient remplies ou non
 - le fait de controler la manières dont les courbes se dessinent
 
-Voici aussi la [démo](https://b2renger.github.io/p5js_image_alteration/06_utiliser_du_noise/)
+Voici aussi la [Demo](https://b2renger.github.io/p5js_image_alteration/06_utiliser_du_noise/)
 
 Au delà de ce que nous avons fait ici vous pourrez notament retrouver des explications plus poussées [ici](https://github.com/b2renger/p5js-designing-interactive-patterns#noise-)
 
@@ -1030,7 +1030,7 @@ menu.addButton("render to png", function(){
 
 Vous pourrez trouver le code de l'exemple précédent avec l'export png ajouté :  https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_en_png/sketch.js
 
-Ainsi que la [démo](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_png/)
+Ainsi que la [Demo](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_png/)
 
 [**home**](#Contenu)
 
@@ -1148,7 +1148,7 @@ Le contenu est donc un peu complexe car le contexte de rendu est différent et m
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_en_svg/sketch.js
 
-Et comme toujours la [démo live](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_svg/)
+Et comme toujours la [Demo](https://b2renger.github.io/p5js_image_alteration/07_exporter_en_svg/)
 
 [**home**](#Contenu)
 
@@ -1216,7 +1216,7 @@ et voici nos 3 couches :
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_plusieures_couches/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/07_exporter_plusieures_couches/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/07_exporter_plusieures_couches/)
 
 [**home**](#Contenu)
 
@@ -1303,7 +1303,7 @@ for (let i = 0; i < img.width; i++) {
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/08_3D_spheres_lights/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights/)
 
 Il est bien sûr possible de dessiner d'autres formes 3D :
 
@@ -1330,7 +1330,7 @@ Vous pouvez essayer de réaliser ces options par vous même en utilisant des sli
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/08_3D_spheres_lights_parameters/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights_parameters/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/08_3D_spheres_lights_parameters/)
 
 [**home**](#Contenu)
 
@@ -1379,7 +1379,7 @@ Notez bien que nous ajoutons à la rotation une valeur qui augmente continuellem
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/08_3D_boxes/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes/)
 
 [**home**](#Contenu)
 
@@ -1594,7 +1594,7 @@ Enfin il faut les utiliser :
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/08_3D_boxes_class_speed/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class_speed/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/08_3D_boxes_class_speed/)
 
 [**home**](#Contenu)
 
@@ -1758,7 +1758,7 @@ Voici donc le résultat final :
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/09_Animation_triangulation_base/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_base/)
 
 [**home**](#Contenu)
 
@@ -1804,7 +1804,7 @@ Voici donc le résultat final :
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/09_Animation_triangulation_noise/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_noise/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/09_Animation_triangulation_noise/)
 
 
 
@@ -1916,7 +1916,7 @@ Voici donc le résultat final :
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/09_Animation_agents/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/09_Animation_agents/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/09_Animation_agents/)
 
 Cette technique peut offrir des résultats très riches. Vous pouvez vous référer à ce tuto (pour utilisateurs avancés) : https://generateme.wordpress.com/2016/04/24/drawing-vector-field/
 
@@ -2019,7 +2019,7 @@ Voici donc le résultat final :
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/10_Drop_triangulation/sketch.js
 
-et la [démo](https://b2renger.github.io/p5js_image_alteration/10_Drop_triangulation/)
+et la [Demo](https://b2renger.github.io/p5js_image_alteration/10_Drop_triangulation/)
 
 
 [**home**](#Contenu)
