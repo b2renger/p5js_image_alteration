@@ -1211,7 +1211,7 @@ if (gray > 100 && gray < 175) { // if light draw a cross
 
 et voici nos 3 couches :
 
-<img src="result_images/example_07_export_svg_couche1.svg " alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg_couche2.svg " alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg_couche3.svg " alt="portrait" width="200" height="whatever">
+<img src="result_images/example_07_export_svg_couche1.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg_couche2.png" alt="portrait" width="200" height="whatever"> <img src="result_images/example_07_export_svg_couche3.png" alt="portrait" width="200" height="whatever">
 
 
 Vous pouvez retrouver l'exemple complet ici : https://github.com/b2renger/p5js_image_alteration/blob/master/07_exporter_plusieures_couches/sketch.js
