@@ -76,11 +76,11 @@ Exemples de rendus :
 
 <img src="result_images/96_Bonus_voronoi_mouse.gif" alt="portrait" width="200" height="whatever">
 
-[**BONUS DEMO3**](https://b2renger.github.io/p5js_image_alteration/96_Bonus_voronoi_mouse/)
+[**BONUS DEMO3**](https://b2renger.github.io/p5js_image_alteration/96_Bonus_voronoi_mouse/index.html)
 
 <img src="result_images/97_Bonus_voronoi_animated.gif" alt="portrait" width="200" height="whatever">
 
-[**BONUS DEMO4**](https://b2renger.github.io/p5js_image_alteration/97_Bonus_voronoi_animated)
+[**BONUS DEMO4**](https://b2renger.github.io/p5js_image_alteration/97_Bonus_voronoi_animated/index.html)
 
 
 
