@@ -20,7 +20,7 @@ Exemples de rendus :
 <img src="result_images/example_03_params.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_03_params_multiples.gif" alt="portrait" width="400" height="whatever"> <img src="result_images/example_04_texte_parameters.gif" alt="portrait" width="400" height="whatever">
 <img src="result_images/example_08_3D_spheres_lights_parameters.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_08_3D_boxes_class_speed.gif " alt="portrait" width="400" height="whatever"> 
 <img src="result_images/example_09_triangulation_anim.gif " alt="portrait" width="400" height="whatever">
-<img src="result_images/example_09_agents.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_10_Drop_triangulation.gif " alt="portrait" width="400" height="whatever">
+<img src="result_images/example_09_agents.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/example_10_Drop_triangulation.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/96_Bonus_voronoi_mouse.gif " alt="portrait" width="400" height="whatever"> <img src="result_images/97_Bonus_voronoi_animated.gif " alt="portrait" width="400" height="whatever">
 
 
 ## Contenu
@@ -73,6 +73,14 @@ Exemples de rendus :
 <img src="result_images/98_lines.png " alt="portrait" width="200" height="whatever">
 
 [**BONUS DEMO2**](https://b2renger.github.io/p5js_image_alteration/98_Bonus_lines/)
+
+<img src="result_images/96_Bonus_voronoi_mouse.gif" alt="portrait" width="200" height="whatever">
+
+[**BONUS DEMO3**](https://b2renger.github.io/p5js_image_alteration/96_Bonus_voronoi_mouse/)
+
+<img src="result_images/97_Bonus_voronoi_animated.gif" alt="portrait" width="200" height="whatever">
+
+[**BONUS DEMO4**](https://b2renger.github.io/p5js_image_alteration/97_Bonus_voronoi_animated)
 
 
 
