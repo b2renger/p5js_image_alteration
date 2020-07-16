@@ -276,7 +276,9 @@ En récapitulant tous ces éléments à l'intérieur de notre double boucle for 
 
 <img src="result_images/example_02_lines.png " alt="portrait" width="400" height="whatever">
 
-Pour ce code :
+
+<details >
+<summary><b>Code</b></summary>
 
 ```js
 function myDrawing() {
@@ -318,6 +320,7 @@ function myDrawing() {
     }
 }
 ```
+</details>
 
 [Demo](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines/)
 
@@ -384,6 +387,8 @@ Nous obtenons alors ce résultat :
 
 <img src="result_images/example_02_lines_rotation.png " alt="portrait" width="400" height="whatever">
 
+<details >
+<summary><b>Code</b></summary>
 
 ```js
 function myDrawing() {
@@ -421,6 +426,7 @@ function myDrawing() {
     }
 }
 ```
+</details>
 
 [Demo](https://b2renger.github.io/p5js_image_alteration/02_acceder_aux_pixels_lines_rotation/)(pensez à bouger la souris)
 
